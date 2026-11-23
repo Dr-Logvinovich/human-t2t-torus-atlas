@@ -6,6 +6,3 @@ chr_cache/
 *.fna.gz
 *.fa
 *.fa.gz
-*.npz
-*.partial.json
-*.tmp
