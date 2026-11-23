@@ -1,0 +1,85 @@
+name: Zero-RNG Verification CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  zero-rng-audit:
+    name: 47 Algebraic Self-Tests & 24-Chr Payload Integrity
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install scientific stack
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install numpy scipy matplotlib
+
+      - name: Run 47 Zero-RNG Algebraic & Statistical Self-Tests (Theorems D1-D19)
+        run: |
+          python3 human_t2t_atlas.py --self-test
+
+      - name: Verify Archived 3.117-Gb Audit Payload, Figures & Manuscript
+        run: |
+          python3 - <<'EOF'
+          import json
+          from pathlib import Path
+
+          # 1. Verify core manuscript & engine files
+          for f in ("human_t2t_atlas.py", "human_t2t_atlas.tex", "human_t2t_atlas.pdf"):
+              assert Path(f).is_file(), f"Missing {f}"
+
+          # 2. Verify all 6 whole-genome figures & 24 diskmaps
+          fig_dir = Path("results_human_t2t_atlas_v1_5_3/figures")
+          for fig in (
+              "fig1_human24_overview.png",
+              "fig2_human24_karyotype_ideogram.png",
+              "fig3_human24_similarity_heatmaps.png",
+              "fig4_human24_D10_entropy_phase_diagram.png",
+              "fig5_human24_D11_arrow_anatomy_motifs.png",
+              "fig6_human24_D12_multilag_ww_hurst.png",
+          ):
+              assert (fig_dir / fig).is_file(), f"Missing {fig}"
+          diskmaps = list((fig_dir / "diskmaps").glob("fig_diskmap_Human_T2T_*.png"))
+          assert len(diskmaps) == 24, f"Expected 24 diskmaps, found {len(diskmaps)}"
+
+          # 3. Verify archived 24-chromosome JSON invariants
+          jp = Path("results_human_t2t_atlas_v1_5_3/human_t2t_atlas_v1.json")
+          assert jp.is_file(), f"Missing {jp}"
+          data = json.loads(jp.read_text(encoding="utf-8"))
+          assert data["version"] == "1.5.3"
+          assert data["n_chromosomes"] == 24 and data["n_failed"] == 0
+          assert data["self_test"]["all_passed"] is True
+
+          gg = data["grand_genome"]
+          assert gg["total_bp"] == 3117275501
+          assert gg["n_euch_sectors"] == 28130 and gg["n_sat_sectors"] == 3031
+          pr2_eu = gg["euchromatin_grand"]["klein_d3"]["time_PR2_compliant_share_unb"]
+          assert pr2_eu > 0.99999, f"Unexpected euch PR2: {pr2_eu}"
+
+          # 4. Verify 24/24 falsification firewall gates
+          assert len(data["results"]) == 24
+          for r in data["results"]:
+              lbl = r["meta"]["label"]
+              t_hac = r["theorem_D14_cluster_1mb_euch"]["cluster_t_hac"]
+              res_d15 = r["theorem_D15_comp_current_euch"]["W_mp_residual_share"]
+              p_levy = r["theorem_D7"]["euch_svd_walk"]["levy_D17_euch"]["levy_p_shift"]
+              p_pelt = r["theorem_D18_pelt"]["cross_channel_concordance"]["hypergeom_p"]
+              assert t_hac >= 19.0, f"{lbl}: HAC t={t_hac}"
+              assert res_d15 >= 0.999, f"{lbl}: D15 res={res_d15}"
+              assert p_levy > 0.05, f"{lbl}: Levy p={p_levy}"
+              assert p_pelt < 0.05, f"{lbl}: PELT p={p_pelt}"
+
+          print("CI VERIFICATION PASSED: 24/24 chr, 47 self-tests, 30 figures, all firewall gates OK.")
+          EOF
