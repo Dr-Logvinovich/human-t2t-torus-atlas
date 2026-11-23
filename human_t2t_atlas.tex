@@ -1,0 +1,677 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,array,tabularx}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\captionsetup{font=small,labelfont=bf}
+\setlist[itemize]{noitemsep,topsep=3pt}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Ttorus}{\mathbb{T}_4^3}
+\newcommand{\Wpp}{W_{++}}
+\newcommand{\Wpm}{W_{+-}}
+\newcommand{\Wmp}{W_{-+}}
+\newcommand{\Wmm}{W_{--}}
+\newcommand{\Pienv}{\Pi_{\mathrm{env}}}
+\newcommand{\Inb}{I_{\mathrm{nonbr}}^{\mathrm{MM}}}
+\newcommand{\Inbraw}{I_{\mathrm{nonbr}}^{\mathrm{raw}}}
+\newcommand{\Hthree}{H_3}
+\newcommand{\dBIC}{\Delta\mathrm{BIC}}
+
+\title{\textbf{A Complete Zero-RNG Toric Disk Atlas of the Human T2T-CHM13v2.0 Genome: Klein $V_4$ Irreversibility, Satellite Partitioning, and Multi-Lag Syntax Across All 24 Chromosomes}}
+
+\author{%
+  \textbf{Victor Logvinovich}$^{1}$ and \textbf{Jean-Claude Perez}$^{2}$\\[6pt]
+  \small $^{1}$Master of Physical and Mathematical Sciences, Researcher in Pedagogical Sciences (Mathematics),\\
+  \small Kobrin, Belarus. \texttt{lomakez@icloud.com}, ORCID: \href{https://orcid.org/0009-0007-2040-6955}{0009-0007-2040-6955}\\[3pt]
+  \small $^{2}$PhD in Mathematics and Computer Science, Retired IBM AI European Research Centre, Montpellier;\\
+  \small Luc Montagnier Foundation. \texttt{jeanclaudeperez2@gmail.com}, ORCID: \href{https://orcid.org/0000-0001-6446-2042}{0000-0001-6446-2042}
+}
+
+\date{November 23, 2026 \quad(\texttt{human\_t2t\_atlas.py} v1.5.3, Zero-RNG Audited Edition)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present a deterministic, zero-random-number-generator (Zero-RNG) whole-chromosome structural audit of the complete gapless human assembly T2T-CHM13v2.0 (\texttt{GCF\_009914755.1}; 24 chromosomes, $3.117\text{ Gb}$, $3{,}117{,}275{,}381$ adjacent triplet pairs at lag $d=3\text{ bp}$). Representing consecutive nucleotide triplets on the discrete torus $\Ttorus = (\mathbb{Z}/4\mathbb{Z})^3$, we apply the exact Klein four-group $V_4 = \{I, T, R, S\}$ orthogonal decomposition separating Chargaff PR2 symmetry from directional $5'\!\to 3'$ irreversibility, together with a $V_4$-closed $496$-dimensional dinucleotide screen envelope $\Pienv$ and its $3600$-dimensional complement. Using a data-driven heteroscedastic Kittler--Illingworth BIC partition on $\log_{10}(\Inbraw)$ constrained by entropy inversion ($0.0\%$ clipping across all 24 chromosomes; $\dBIC \in [294.5, 2527.0]$), the genome cleanly bifurcates into euchromatin ($28{,}130$ 100-kb sectors, $90.27\%$) and satellite/tandem firmware ($3{,}031$ sectors, $9.73\%$). Across the pooled $2.813\text{ Gb}$ euchromatin compartment at $d=3\text{ bp}$, directional flux is $99.9995\%$ PR2-compliant ($\|\Wmp\|^2_{\mathrm{unb}} = 1.22\times 10^{-5}$ vs.\ $\|\Wmm\|^2_{\mathrm{unb}} = 5.86\times 10^{-11}$), $86.4\%$ CpG-free (with all top-15 canonical directed 6-mer orbits strictly CpG-free, led by \texttt{GGG-AGG/CCT-CCC} at $2.12\%$), and $37.0\%$ orthogonal to the $V_4$-closed screen envelope. Every chromosome passes leave-one-block-out 1-Mb Newey--West HAC cluster inference ($t_{\mathrm{HAC}} \in [19.56, 112.73]$) and retains $100.00\%$ residual energy against an exact $M=1000\text{ bp}$ compositional-current null. Across lags $d \in \{3,\dots,171\}\text{ bp}$, we prove exact $\bmod\,p$ tandem-repeat Klein aliasing explaining the apparent whole-genome rebound at $d=147$ and $171\text{ bp}$ via HSat2/3 $(\texttt{GGAAT})_n$ ($p=5$), while satellite-stripped euchromatin eliminates the $d=147/171\text{ bp}$ rebound completely, exhibiting a helical-turn shoulder at $d=9\text{--}10\text{ bp}$ ($2.97\times 10^{-6}$) followed by smooth monotonic decay across $d=10\text{--}171\text{ bp}$ down to $1.43\times 10^{-7}$ (with strictly monotonic $\Inb$ decay across all 10 lags, power-law scaling $\|\Wmp\|^2_{\mathrm{unb}}(d)\propto d^{-0.998}$ [$R^2=0.940$], and $\ge 99.99\%$ PR2 compliance throughout). Cross-chromosomally, euchromatic arrows align at $95.82\%$ coherence along an effectively 1D autosomal GC/Alu manifold (PC1 $=87.97\%$, $\mathrm{PR}=1.29$) while chiral PR2 defects cancel $94.4\times$; spaced palindromes $(u,\rho(u))$ are proved algebraically PR2-locked with $\ge 56.25\%$ universal non-envelope escape ($87.89\%$ per mode), and at $d=171\text{ bp}$ the residual euchromatic arrow condenses onto the canonical Alu \texttt{CTCTACT}$\to$\texttt{AAA} dipole ($25.36\%$).
+\end{abstract}
+
+% =====================================================================
+\section{Introduction and Assembly Scope}
+\label{sec:intro}
+% =====================================================================
+
+Completion of the telomere-to-telomere human reference genome T2T-CHM13v2.0 (\texttt{GCF\_009914755.1}) eliminates the $\sim 8\%$ heterochromatic blind spot---comprising centromeric $\alpha$-satellite higher-order repeats (HORs), pericentromeric human satellites HSat1--3, acrocentric rDNA short arms, and the $35\text{-Mb}$ \texttt{DYZ1/2} array on \texttt{chrY}---that previously precluded exact whole-chromosome statistical mechanics. Classical sequence analyses rely either on marginal base-composition tracks (GC isochores, GC/AT skews) or on alignment- and annotation-dependent models that often require Monte Carlo null simulations.
+
+Here we treat each complete chromosome as a continuous physical medium (``toric disk'') and compute exact, closed-form algebraic observables directly on the $64\times 64$ triplet-pair transition tensor $B^{(d)}$ across all 24 RefSeq sequences (\texttt{NC\_060925.1}--\texttt{NC\_060948.1}, $3{,}117{,}275{,}501\text{ bp}$, $100.00\%$ valid \texttt{ACGT}). Our computational engine (\texttt{human\_t2t\_atlas.py} v1.5.3) operates under a strict \textbf{Zero-RNG} discipline: every decomposition, debiasing estimator, spectral test, segmentation optimum, and self-test is deterministic and reproducible to machine precision.
+
+\paragraph{Assembly Scope Note.}
+T2T-CHM13v2.0 combines the effectively haploid $46,\mathrm{XX}$ CHM13 cell line (\texttt{chr1}--\texttt{chr22}, \texttt{chrX}) with the T2T-assembled \texttt{chrY} from HG002 ($46,\mathrm{XY}$). In RefSeq v2.0, acrocentric rDNA morph arrays include consensus-modeled repeat copies. All reported findings apply strictly to this published reference sequence and are partitioned blindly without external RepeatMasker or gene-annotation tracks.
+
+\paragraph{Relation to Companion Studies (Papers 1--3) and Open Code.}
+This study forms Paper~4 of the Zero-RNG Double-Stranded Codon Torus series, extending our prior multi-species coding-gene, synthetic-genome, and mRNA audits (Papers~1--3, archived at \url{https://github.com/Dr-Logvinovich/codon-torus-syntax}~\cite{Logvinovich2026,Logvinovich2026b}) from annotated gene sequences onto the complete, unannotated $3.117\text{ Gb}$ whole-chromosome human physical medium. All scripts, JSON/Markdown outputs, and publication figures for the present atlas are hosted at \url{https://github.com/Dr-Logvinovich/human-t2t-torus-atlas}; headline quantitative discoveries are summarized in Table~\ref{tab:headline}.
+
+\begin{table}[htbp]
+\centering
+\caption{Headline quantitative discoveries of the Human T2T-CHM13v2.0 Torus Disk Atlas (v1.5.3, Zero-RNG).}
+\label{tab:headline}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{}llX@{}}
+\toprule
+\textbf{Discovery} & \textbf{Key Metric} & \textbf{Core Result} \\
+\midrule
+1.\ Euchromatin PR2 Lock & $99.9995\%$ ($2.08\times 10^5\!:\!1$) & Chiral $\Wmm$ collapses $2.26\times 10^5$-fold from satellites, falling below the $1/(4N)$ pooling floor ($0.66\times$); $D_{5'\text{-lead}}=D_{3'\text{-wobble}}$ to $7$ digits. \\
+2.\ Inter-Chr Coherence & $\kappa_{\mathrm{euch}}(-+)=95.82\%$ & All 24 chromosomes align along one 1024-D arrow, while chiral PR2 defects cancel $94.4\times$ ($\kappa=1.06\%$). \\
+3.\ 1D Arrow Manifold & PC1 $=87.97\%$, $\mathrm{PR}=1.29$ & Autosomal 1024-D euchromatic arrows collapse onto a 1D GC/Alu manifold; \texttt{chrY} is the sole PC2 excursion. \\
+4.\ Palindromic Escape & $32\oplus 0\oplus 32\oplus 0$; $\ge 9/16$ & Spaced palindromes lock into $\Wmp$ ($87.89\%$ per-mode, $\ge 56.25\%$ universal escape; $18$-D dark kernel) and peak at $d=6\text{ bp}$ ($66.3\times$). \\
+5.\ $1/d$ Decay \& Alu Dipole & $\|\Wmp\|^2\!\propto\! d^{-0.998}$ & Stripping $\bmod\,5$ HSat2/3 exposes $1/d$ decay ($R^2=0.940$) and condenses $d=171\text{ bp}$ onto the Alu \texttt{TCTCTACTA}$\to$\texttt{AAA} dipole ($25.36\%$). \\
+6.\ Anti-Gradient Lock & $\rho=-0.9821$ ($p=1.9\text{e-}17$) & Strongest arrows (\texttt{chr19/17/22}) have lowest D15 drift alignment ($\cos=0.02\text{--}0.09$) and $100\%$ residual. \\
+7.\ Karyotype Regimes & $5/5$ vs.\ $0/17$; $24/24$ chr & Zero-overlap $10.4\text{ nt}$ / $154^\circ\text{--}161^\circ$ pitch switch ($\mathrm{WW}<31\%$); strict $H(\mathrm{GC})>H(\Inb)>H(\Omega_{\mathrm{cond}})$. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================
+\section{Mathematical Framework (Theorems D1--D19)}
+\label{sec:framework}
+% =====================================================================
+
+Let $s = (s_0,\dots,s_{L-1}) \in \{0,1,2,3\}^L$ encode \texttt{A,C,G,T}. Each contiguous 3-mer maps to a vertex $u \in \Ttorus = (\mathbb{Z}/4\mathbb{Z})^3$ ($|\Ttorus|=64$), with Watson--Crick reverse-complement involution $\rho(u) = \overline{u}^{\mathrm{rev}}$. For lag $d \ge 1$, let $B^{(d)}_{u,v}$ count valid triplet pairs $(c_i, c_{i+d}) = (u,v)$ summed across all three reading phases without crossing gaps, and set $M^{(d)} = B^{(d)} / N$ with $N = \sum_{u,v} B^{(d)}_{u,v}$.
+
+\subsection{Klein $V_4$ Decomposition and Unbiased Energies (D1, D2, D9)}
+Two commuting isometric involutions act on $\mathbb{R}^{64\times 64}$: transposition $T(M) = M^\top$ (reversing $5'\!\to 3'$ order) and reverse-complement conjugation $R(M)_{u,v} = M_{\rho(v),\rho(u)}$ (swapping strands). Together with $S = TR$, they generate the Klein four-group $V_4 = \{I, T, R, S\}$, inducing the exact Frobenius-orthogonal splitting
+\begin{equation}
+  M = \Wpp + \Wpm + \Wmp + \Wmm, \qquad
+  \|M\|_F^2 = \|\Wpp\|_F^2 + \|\Wpm\|_F^2 + \|\Wmp\|_F^2 + \|\Wmm\|_F^2,
+  \label{eq:klein}
+\end{equation}
+where the subscripts denote $(T,R)$ eigenvalues $\in \{+1,-1\}^2$:
+\begin{itemize}
+  \item $\Wpp$ ($T=+1, R=+1$, dim $1056$): static, PR2-symmetric background;
+  \item $\Wpm$ ($T=+1, R=-1$, dim $1024$): static PR2 defect (strand-composition skew);
+  \item $\Wmp$ ($T=-1, R=+1$, dim $1024$): \textbf{PR2-compliant directional arrow} ($5'\!\to 3'$ irreversibility invariant under reverse complementation);
+  \item $\Wmm$ ($T=-1, R=-1$, dim $992$): chiral PR2-violating directional flow.
+\end{itemize}
+\begin{theorem}[Klein $V_4$ Splitting and Heterogeneity Annihilation (D1--D2)]
+\label{thm:klein_het}
+For any sequence $s$ and lag $d\ge 1$, the reverse-complement sequence $\mathrm{rc}(s)$ satisfies $B^{(d)}(\mathrm{rc}(s)) = R(B^{(d)}(s))$. Consequently, any within-sector independent-marginal null $E_{\mathrm{het}}^{(d)} = \sum_w \alpha_w (c_w c_w^\top - \mathrm{diag}(c_w))$ is strictly $T$-symmetric, so $\Wmp(E_{\mathrm{het}}^{(d)}) = \Wmm(E_{\mathrm{het}}^{(d)}) = 0$ identically.
+\end{theorem}
+\noindent\textit{Proof.} Each rank-one summand $c_w c_w^\top$ and diagonal matrix $\mathrm{diag}(c_w)$ satisfies $T(A)=A^\top=A$; since $\Wmp$ and $\Wmm$ lie in the $(-1)$-eigenspace of $T$, their projections onto $E_{\mathrm{het}}^{(d)}$ vanish identically. $\square$
+
+\begin{corollary}[Compositional vs.\ Chiral PR2 Splitting]
+\label{cor:pr2_dyn}
+Any pure strand-composition skew $\delta p_u = -\delta p_{\rho(u)}$ perturbs the independent-pair tensor $p\otimes p$ by $\delta p\otimes p + p\otimes \delta p$, which is strictly $T$-symmetric and $R$-antisymmetric; hence compositional PR2 defects inject $100\%$ into static $\Wpm$ and $0\%$ into chiral $\Wmm$. Conversely, an off-diagonal unidirectional tandem transition $E_{u,v}$ ($u\neq v, v\neq\rho(u)$) projects with equal Frobenius weight ($1/4$) onto all four Klein quadrants in Eq.~\eqref{eq:klein}, driving the dynamic PR2 share $\mathrm{PR2}_{\mathrm{dyn}} := \|\Wmm\|^2 / (\|\Wpm\|^2 + \|\Wmm\|^2)$ toward $50\%$.
+\end{corollary}
+
+\noindent To remove $O(1/N)$ multinomial sampling bias on finite sectors and pooled strata, \textbf{Theorem D9} (Theorem~\ref{thm:orbit_debias}) computes exact $U$-statistic unbiased squared norms $\|\Wmp\|^2_{\mathrm{unb}}$ and $\|\Wmm\|^2_{\mathrm{unb}}$ from the four $V_4$ inner products corrected by the homodimer diagonal $p_{\mathrm{diag}}$ and 6-bp palindrome trace $p_{\mathrm{pal}}$.
+
+\subsection{Two-Sided Screen and $V_4$-Closed Envelope (D3, D11, D13)}
+Denoting the suffix dinucleotide of $u$ by $\mathrm{suf}(u) \in \{0,\dots,15\}$ and the prefix dinucleotide of $v$ by $\mathrm{pre}(v) \in \{0,\dots,15\}$, \textbf{Theorem D3} splits total triplet mutual information exactly into four nonnegative terms ($\mathrm{df}=225+720+720+2304=3969$):
+\begin{equation}
+  I(X;Y) = I_{\mathrm{bridge}} + \underbrace{D_{5'\text{-lead}} + D_{3'\text{-wobble}} + D_{1,3}}_{\Inbraw}, \qquad
+  \Inb = \Inbraw - \frac{\mathrm{df}_{\mathrm{nonbr}}}{2N}.
+\end{equation}
+Analogously, comparing within-sector pair counts $B_{\mathrm{within}}^{(d)}$ against the heterogeneity null $E_{\mathrm{het}}^{(d)}$ (Theorem~\ref{thm:klein_het}) via the exact screen-stratified KL chain rule yields the Miller--Madow-debiased non-bridge divergence $K_{\mathrm{nonbr}}^{\mathrm{MM}} = D_{\mathrm{KL}}(B_{\mathrm{within}}\|E_{\mathrm{het}}) - K_{\mathrm{bridge}} - \mathrm{df}_{\mathrm{nonbr}}/(2N)$.
+Let $D_S$ and $D_O$ be the orthogonal averaging projectors onto $\mathrm{suf}$ and $\mathrm{pre}$ fibers, and $D_{C2} = D_S D_O$. Because the naive one-sided bridge projector $M \mapsto D_S M D_O$ does not commute with $T$, \textbf{Theorem D13} constructs the minimal $V_4$-closed screen envelope projector
+\begin{equation}
+  \Pienv(M) = D_S M D_O + D_O M D_S - D_{C2} M D_{C2},
+  \label{eq:pienv}
+\end{equation}
+which yields the following exact $V_4$-equivariant decomposition.
+
+\begin{theorem}[Minimal $V_4$-Closed Dinucleotide Screen Envelope (D13)]
+\label{thm:pienv}
+The operator $\Pienv$ in Eq.~\eqref{eq:pienv} is an orthogonal projector ($\Pienv^2 = \Pienv = \Pienv^\dagger$) commuting with every element of $V_4 = \{I,T,R,S\}$. Its image has exact dimension $496$ splitting across $(\Wpp,\Wpm,\Wmp,\Wmm)$ as $132 \oplus 118 \oplus 130 \oplus 116$, and its orthogonal complement $(I-\Pienv)$ has dimension $3600$ ($924 \oplus 906 \oplus 894 \oplus 876$) with zero cross-quadrant leakage.
+\end{theorem}
+\noindent\textit{Proof.} Since $D_S$ and $D_O$ are symmetric commuting block-averaging projectors ($D_S D_O = D_O D_S = D_{C2}$) exchanged by transposition ($T(D_S M D_O) = D_O M^\top D_S$) and preserved under reverse complementation ($R(D_S M D_O) = D_S R(M) D_O$), both $D_S(\cdot)D_O + D_O(\cdot)D_S$ and $D_{C2}(\cdot)D_{C2}$ commute with $T$ and $R$, hence with all of $V_4$. Direct character traces give the stated quadrant ranks (verified to $<5\times 10^{-16}$). $\square$
+
+\subsection{Data-Driven Satellite Partition, Persistence, and Aliasing (D4--D8, D14--D19)}
+\begin{theorem}[Exact $\bmod\,p$ Tandem-Repeat Klein Aliasing (D19)]
+\label{thm:aliasing}
+Let $s$ be an ideal periodic tandem repeat of minimal period $p\ge 1$ ($s_{i+p}=s_i$). Whenever $d \equiv 0 \pmod p$, every triplet pair satisfies $c_{i+d}=c_i$, so $B^{(d)}$ is diagonal and $\Wmp(B^{(d)}) = \Wmm(B^{(d)}) = 0$. Conversely, at any lag $d \not\equiv 0 \pmod p$ with non-palindromic phase shift, $\Wmp(B^{(d)}) \neq 0$ re-emerges at full tandem amplitude.
+\end{theorem}
+\noindent\textit{Proof.} Diagonal matrices are fixed by $T$, annihilating $\Wmp \oplus \Wmm$; for $d \not\equiv 0 \pmod p$, $B^{(d)}$ is supported on the directed shift $c_i \mapsto c_{i+d}$ whose transpose corresponds to lag $-d \not\equiv d \pmod p$ whenever $2d \not\equiv 0 \pmod p$. $\square$
+
+\begin{theorem}[Palindromic Anti-Diagonal Chirality-Free Locking and $(15/16)^2$ Screen Escape]
+\label{thm:pal_lock}
+Because codon length $k=3$ is odd and Watson--Crick base complementation is fixed-point-free, $\rho(u)\neq u$ for every $u\in\Ttorus$. Let $\mathcal{P}_{\mathrm{pal}} = \mathrm{span}\{E_{u,\rho(u)} : u\in\Ttorus\} \subset \mathbb{R}^{64\times 64}$ denote the $64$-dimensional spaced-palindrome anti-diagonal. Then:
+\begin{enumerate}[label=(\roman*),noitemsep,topsep=2pt]
+  \item $\mathcal{P}_{\mathrm{pal}}$ splits across $(\Wpp,\Wpm,\Wmp,\Wmm)$ as $32 \oplus 0 \oplus 32 \oplus 0$; every oriented palindrome mode $E^-_{u,\rho(u)} = \frac{1}{\sqrt{2}}(E_{u,\rho(u)} - E_{\rho(u),u})$ is algebraically locked into $\Wmp$ with identically zero PR2-violating projection ($\Wpm = \Wmm = 0$).
+  \item Every basis mode $E^-_{u,\rho(u)}$ satisfies exact screen-envelope projection $\|\Pienv(E^-_{u,\rho(u)})\|_F^2 = \frac{31}{256}$ ($12.11\%$) and pure $3600$-D non-envelope escape $\|(I-\Pienv)E^-_{u,\rho(u)}\|_F^2 = \frac{225}{256} = (15/16)^2$ ($87.89\%$). 
+  \item Let $Q_{\mathrm{pal}}^-$ denote orthogonal projection onto the $32$-dimensional oriented palindrome subspace $\mathcal{P}_{\mathrm{pal}}^- \subset \Wmp$. The compressed envelope operator $Q_{\mathrm{pal}}^-\Pienv Q_{\mathrm{pal}}^-$ has exact discrete spectrum $\{\frac{7}{16}\;(\text{mult }2),\;\frac{1}{4}\;(\text{mult }12),\;0\;(\text{mult }18)\}$. Consequently, \emph{every} nonzero palindromic arrow $X\in\mathcal{P}_{\mathrm{pal}}^-$ obeys the universal lower bound $\|(I-\Pienv)X\|_F^2 \ge \frac{9}{16}\|X\|_F^2$ ($56.25\%$), and an $18$-dimensional ``dark palindromic'' kernel lies $100\%$ orthogonal to $\Pienv$.
+\end{enumerate}
+\end{theorem}
+\noindent\textit{Proof.} For $u=(x,y,z)$, $\rho(u)=(\bar{z},\bar{y},\bar{x})$ satisfies $R(E_{u,\rho(u)}) = E_{\rho^2(u),\rho(u)} = E_{u,\rho(u)}$, fixing $\mathcal{P}_{\mathrm{pal}}$ pointwise under $R$ and annihilating $\Wpm\oplus\Wmm$, while $T$ swaps the $32$ disjoint pairs $(u,\rho(u))\leftrightarrow(\rho(u),u)$, yielding $32\oplus 32$ in $\Wpp\oplus\Wmp$. Since the middle base obeys $\bar{y}\neq y$, neither $\mathrm{suf}$, $\mathrm{pre}$, nor middle-base fibers coincide between $u$ and $\rho(u)$; all cross-terms between $E_{u,\rho(u)}$ and $E_{\rho(u),u}$ vanish under $D_S(\cdot)D_O$, $D_O(\cdot)D_S$, and $D_{C2}(\cdot)D_{C2}$. Because $\Pienv$ is an orthogonal projector, $\|\Pienv(E^-_{u,\rho(u)})\|_F^2 = \langle E_{u,\rho(u)}, \Pienv(E_{u,\rho(u)})\rangle = \frac{1}{16} + \frac{1}{16} - \frac{1}{256} = \frac{31}{256}$, leaving $1 - \frac{31}{256} = \frac{225}{256}$ in $(I-\Pienv)$. Identifying $E_{u,\rho(u)}$ with $|x,y,z\rangle\in(\mathbb{C}^4)^{\otimes 3}$ and noting that $\mathrm{suf}(u)=\mathrm{suf}(w)\Leftrightarrow\mathrm{pre}(\rho(u))=\mathrm{pre}(\rho(w))$, compression of Eq.~\eqref{eq:pienv} onto $\mathcal{P}_{\mathrm{pal}}$ reduces to $G = \frac{1}{4}(P_1\otimes I_2\otimes I_3 + I_1\otimes I_2\otimes P_3) - \frac{1}{16}(P_1\otimes I_2\otimes P_3)$, where $P_1,P_3$ average over outer bases $x,z$. Restricting to the $T$-antisymmetric subspace $\mathcal{P}_{\mathrm{pal}}^-$ (where $T$ swaps $P_1\leftrightarrow P_3$ and pairs $y\leftrightarrow\bar{y}$) gives eigenvalues $\frac{7}{16}$ (dim $2$), $\frac{1}{4}$ (dim $12$), and $0$ (dim $18$), yielding $\|Q_{\mathrm{pal}}^-\Pienv Q_{\mathrm{pal}}^-\|_{\mathrm{op}} = \frac{7}{16}$ and universal escape $\ge 1 - \frac{7}{16} = \frac{9}{16}$ (verified numerically to $<10^{-14}$). $\square$
+
+\begin{theorem}[Exact $V_4$ Orbit Enumeration and $U$-Statistic Debiasing (D9 \& Lemma D14.2)]
+\label{thm:orbit_debias}
+Under the $V_4=\{I,T,R,S\}$ action on the $4096$ index pairs of $\Ttorus\times\Ttorus$, there are $32$ diagonal homodimer orbits $\{(u,u),(\rho(u),\rho(u))\}$ (size $2$, $T=+1$), $32$ palindromic anti-diagonal orbits $\{(u,\rho(u)),(\rho(u),u)\}$ (size $2$, $R=+1$), $0$ fixed points of $S$, and $992$ free generic orbits (size $4$), giving exact quadrant ranks $1056 \oplus 1024 \oplus 1024 \oplus 992 = 4096$. For $N$ multinomial draws with empirical transition matrix $M=B/N$, homodimer fraction $\hat{p}_{\mathrm{diag}}=\mathrm{tr}(M)$, and 6-bp palindrome fraction $\hat{p}_{\mathrm{pal}}=\sum_u M_{u,\rho(u)}$, the exact minimum-variance unbiased quadratic estimator for each $V_4$ quadrant $\sigma=(s_T,s_R)\in\{+1,-1\}^2$ is
+\begin{equation}
+  \|\widehat{W}_{\sigma}\|^2_{\mathrm{unb}}
+  = \frac{N\|W_{\sigma}(M)\|_F^2 - \frac{1}{4}\bigl(1 + s_T \hat{p}_{\mathrm{diag}} + s_R \hat{p}_{\mathrm{pal}}\bigr)}{N - 1}.
+  \label{eq:ustats}
+\end{equation}
+\end{theorem}
+\noindent\textit{Proof.} For any single draw $X_i = E_{u,v}$, $\langle X_i, T(X_i)\rangle = \mathbf{1}_{u=v}$, $\langle X_i, R(X_i)\rangle = \mathbf{1}_{v=\rho(u)}$, and $\langle X_i, S(X_i)\rangle = 0$ because $\rho(u)\neq u$. Hence $\|Q_\sigma(X_i)\|_F^2 = \frac{1}{4}(1+s_T\mathbf{1}_{u=v}+s_R\mathbf{1}_{v=\rho(u)})$. Splitting $\|Q_\sigma(M)\|_F^2 = \frac{1}{N^2}\sum_i \|Q_\sigma(X_i)\|_F^2 + \frac{1}{N^2}\sum_{i\neq j}\langle Q_\sigma(X_i), Q_\sigma(X_j)\rangle$ and taking expectations gives $\mathbb{E}[\|W_\sigma(M)\|_F^2] = \frac{N-1}{N}\|W_\sigma(P)\|_F^2 + \frac{1}{4N}(1+s_T p_{\mathrm{diag}}+s_R p_{\mathrm{pal}})$, which inverts uniquely to Eq.~\eqref{eq:ustats} (verified against engine JSON outputs to $<1.1\times 10^{-19}$). $\square$
+
+\begin{corollary}[Finite-Sample Pooling Floor]
+\label{cor:floor}
+Under a null with $W_\sigma(P)=0$, the raw sampling bias floor equals $\frac{1}{4N}(1+s_T p_{\mathrm{diag}}+s_R p_{\mathrm{pal}}) = \frac{1}{4N}[1+O(10^{-2})]$; observed $\|\widehat{W}_{\sigma}\|^2_{\mathrm{unb}} \lesssim 1/(4N)$ is statistically indistinguishable from exact zero. While Eq.~\eqref{eq:ustats} removes exact $O(1/N)$ multinomial sampling bias, genomic triplet overlap and megabase autocorrelation are handled independently by Theorem~D14 (disjoint stride sweeps and 1-Mb LOO Newey--West HAC inference).
+\end{corollary}
+
+\begin{theorem}[Inter-Chromosomal Coherence Ratio and Chiral Cancellation Inequality]
+\label{thm:coherence}
+Let chromosomes $c=1,\dots,C$ carry positive pair-count weights $w_c>0$ ($\sum_{c=1}^C w_c = 1$) and quadrant projections $W_\sigma^{(c)}$, with grand-pooled matrix $\overline{W}_\sigma = \sum_{c=1}^C w_c W_\sigma^{(c)}$. Define the \emph{inter-chromosomal coherence ratio}
+\begin{equation}
+  \kappa_\sigma := \frac{\|\overline{W}_\sigma\|_F^2}{\sum_{c=1}^C w_c \|W_\sigma^{(c)}\|_F^2} \in [0, 1].
+  \label{eq:coherence}
+\end{equation}
+Then $0 \le \kappa_\sigma \le 1$, with $\kappa_\sigma = 1$ if and only if all chromosomes share an identical tensor $W_\sigma^{(c)} \equiv \overline{W}_\sigma$, whereas $\kappa_\sigma \ll 1$ certifies destructive inter-chromosomal phase or strand-orientation cancellation.
+\end{theorem}
+\noindent\textit{Proof.} Direct consequence of the strict convexity of $\|\cdot\|_F^2$ via Jensen's inequality, $\|\sum_c w_c W_\sigma^{(c)}\|_F^2 = \sum_c w_c \|W_\sigma^{(c)}\|_F^2 - \sum_c w_c \|W_\sigma^{(c)} - \overline{W}_\sigma\|_F^2$. $\square$
+
+Table~\ref{tab:theorems} summarizes the remaining Zero-RNG analytical modules verified by the engine's automated startup self-test suite (all checks passing at $<10^{-13}$ algebraic residual).
+
+\begin{table}[htbp]
+\centering
+\caption{Summary of Zero-RNG analytical modules implemented in \texttt{human\_t2t\_atlas.py} v1.5.3.}
+\label{tab:theorems}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}llX@{}}
+\toprule
+\textbf{Module} & \textbf{Object / Test} & \textbf{Exact Mathematical Definition} \\
+\midrule
+THM-D4 & 3-bp frame lock $\Omega_{\mathrm{phase}}$ & 3-frame Jensen--Shannon divergence $\Omega_{\mathrm{marg}}+\Omega_{\mathrm{cond}}$ minus analytic $\mathrm{df}$ bias. \\
+THM-D5 & Sector disk scan ($100\text{ kb}$) & Intrinsic right-singular-vector SVD polarity walks ($W_{+-}, W_{--}$) with permutation-invariant sign. \\
+THM-D6/16 & FFT GC \& WW/SS pitch & Zero-padded FFT ACF ($d\le 600$; $2500$ on satellites), quadratic+3-bp OLS pre-whitening, Hann ENBW-adj.\ $F_{2,2M_{\mathrm{eff}}}$ test. \\
+THM-D7 & Euchromatin / Satellite split & Exact half-entropy guard ($\Hthree<3.0\text{ bits}$) + constrained heteroscedastic Kittler--Illingworth BIC on $\log_{10}(\Inbraw)$ ($\dBIC>10$, entropy inversion). \\
+THM-D8 & Multi-scale WLS Hurst $H$ & WLS log-variance scaling ($100\text{ kb}\to 6.4\text{ Mb}$) with Delete-1 Macro-Block Jackknife Student-$t$ 95\% CI. \\
+THM-D14 & Robust arrow inference & Disjoint Bowker $\chi^2$ (Lugannani--Rice saddlepoint, descriptive) + leave-one-block-out 1-Mb Newey--West HAC $t$-test. \\
+THM-D15 & Compositional current null & Single-pass exact local-current tensor $E_{\mathrm{loc}} = E_{\mathrm{sym}} + J$ ($M \in \{200,10^3,10^4,10^5\}\text{ bp}$). \\
+THM-D17 & Path signature L\'evy area & Level-2 signed area of $(W_{+-},W_{--})$ vs.\ exact $O(n\log n)$ FFT circular-shift null. \\
+THM-D18 & Exact PELT $L_2$ segmentation & Delayed-pruning PELT ($\beta = 3\ln n$, Bartlett LRV inflation) + exact hypergeometric cross-channel concordance. \\
+THM-D19 & $\bmod\,p$ repeat aliasing & For ideal period-$p$ tandem repeats, $c_{i+d}=c_i$ at $d\equiv 0\pmod p \implies \Wmp=\Wmm=0$. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================
+\section{Whole-Genome Architecture, KI-BIC Partition, and Entropy Phase Diagram}
+\label{sec:results_a}
+% =====================================================================
+
+\subsection{Grand-Pooled 3.117-Gb Summary and Compartmental Bifurcation}
+Pooling all $24$ T2T-CHM13v2.0 chromosomes yields $N = 3{,}117{,}275{,}381$ gap-free adjacent triplet pairs at lag $d=3\text{ bp}$. Across the unpartitioned genome, the unbiased PR2-compliant arrow reaches $\|\Wmp\|^2_{\mathrm{unb}} = 1.65\times 10^{-5}$ while chiral PR2-breaking flow sits at $\|\Wmm\|^2_{\mathrm{unb}} = 1.26\times 10^{-7}$ ($99.24\%$ PR2-compliant). However, individual chromosomes harboring large pericentromeric HSat2/3 or \texttt{DYZ1/2} tandem arrays exhibit severe apparent whole-chromosome PR2 violations: whole-disk PR2 compliance drops to $56.86\%$ on \texttt{chrY}, $57.05\%$ on \texttt{chr16}, $59.33\%$ on \texttt{chr15}, $70.08\%$ on \texttt{chr1}, and $76.72\%$ on \texttt{chr13}.
+
+Applying the data-driven heteroscedastic Kittler--Illingworth BIC partition (\textbf{Theorem D7}) to $\log_{10}(\Inbraw)$ with entropy-inversion constraint resolves every chromosome cleanly with $0.0\%$ clipping and decisive model support ($\dBIC \in [294.5, 2527.0]$). Genome-wide, $28{,}130$ 100-kb sectors ($90.27\%$, $N = 2{,}812{,}997{,}330$) form euchromatin and $3{,}031$ sectors ($9.73\%$, $N = 303{,}097{,}395$) form the satellite/tandem compartment (Table~\ref{tab:grand}). Once satellites are stripped, chiral flow $\|\Wmm\|^2_{\mathrm{unb}}$ collapses by $2.26\times 10^5$-fold---from $1.32\times 10^{-5}$ in satellites to $5.86\times 10^{-11}$ in pooled euchromatin---raising euchromatin PR2 compliance to $99.9995\%$ ($100.00\%$ rounded), and to $\ge 99.95\%$ on every autosome and \texttt{chrX} ($99.43\%$ on \texttt{chrY}; Table~\ref{tab:chr24}, Figure~\ref{fig:overview}). Crucially, by \textbf{Lemma D14.2} (Corollary~\ref{cor:floor}) the finite-sample multinomial pooling floor in euchromatin is $1/(4N) = 8.89\times 10^{-11}$: pooled $\|\Wmp\|^2_{\mathrm{unb}}$ stands $1.37\times 10^5$-fold above this floor at $d=3\text{ bp}$ (and $1{,}614$-fold above even at $d=171\text{ bp}$), whereas $\|\Wmm\|^2_{\mathrm{unb}}$ sits \emph{below} the $1/(4N)$ floor ($0.66\times$ at $d=3\text{ bp}$, $0.11\times$ at $d=171\text{ bp}$), confirming statistical indistinguishability from exact zero chiral flow. Independently, the nonlinear Shannon screen confirms PR2 symmetry to seven significant digits: $D_{5'\text{-lead}} = 0.00804587\text{ nats}$ versus $D_{3'\text{-wobble}} = 0.00804587\text{ nats}$ ($|\Delta| = 3.23\times 10^{-9}\text{ nats}$, relative asymmetry $4.02\times 10^{-7}$).
+
+Two further structural signatures corroborate Corollary~\ref{cor:pr2_dyn} and Theorem~\ref{thm:coherence}. First, the dynamic-to-total PR2 defect ratio $\mathrm{PR2}_{\mathrm{dyn}}$ bifurcates cleanly by an order of magnitude across compartments: in grand-pooled satellites (and all five low-entropy D10 strata), chiral flow accounts for $43.85\%$--$48.69\%$ of total PR2 breaking (near-equipartition between $\Wpm$ and $\Wmm$), whereas in euchromatin the unbiased dynamic share collapses to $4.46\%$ at $d=3\text{ bp}$ ($\|\Wpm\|^2_{\mathrm{unb}} = 1.25\times 10^{-9}$, $14\times$ above the $1/(4N)$ floor, versus sub-floor $\|\Wmm\|^2_{\mathrm{unb}} = 5.86\times 10^{-11}$) and drops to $0.45\%$--$0.89\%$ across $d=90$--$171\text{ bp}$, proving that residual euchromatic PR2 departures are $>95\%$ static strand-composition skew. Second, \texttt{chr9} exhibits a striking \emph{intra-chromosomal chiral-cancellation paradox}: despite carrying a massive $20.8\%$ ($\sim 31\text{ Mb}$) pericentromeric \texttt{9q12} HSat3 block that gives it the second-highest whole-disk arrow ($\|\Wmp\|^2_{\mathrm{unb}} = 4.43\times 10^{-4}$) and most extreme Bowker $T$ statistic ($\log_{10} p = -828{,}246.7$) in the genome, \texttt{chr9} attains the \emph{highest} whole-chromosome PR2 compliance of all 24 chromosomes ($99.96\%$), with satellite $\|\Wmm\|^2 = 3.74\times 10^{-6}$ suppressed $302$--$527\times$ below \texttt{chr1/15/16/Y} ($1.13\text{--}1.97\times 10^{-3}$). Balanced head-to-head inverted HSat3 sub-arrays in \texttt{9q12} destructively cancel chiral $\Wmm$ ($R=-1$) while adding constructively in $\Wmp$ ($R=+1$).
+
+\begin{table}[htbp]
+\centering
+\caption{Exact grand-pooled Klein $V_4$ and two-sided screen summary across all 24 T2T-CHM13v2.0 chromosomes ($d=3\text{ bp}$, Zero-RNG).}
+\label{tab:grand}
+\scriptsize
+\setlength{\tabcolsep}{3.6pt}
+\begin{tabular}{@{}lrrrrrrrrrr@{}}
+\toprule
+\textbf{Partition} & \textbf{Pairs $N$} & $\|\Wpp\|^2$ & $\|\Wpm\|^2$ & $\|\Wmp\|^2_{\mathrm{unb}}$ & $\|\Wmm\|^2_{\mathrm{unb}}$ & \textbf{PR2-ok} & \textbf{Non-Env} & \textbf{CpG-free} & $\Inb$ & \textbf{6-bp Pal} \\
+\midrule
+Whole Genome & 3,117,275,381 & $3.99\text{e-}4$ & $1.62\text{e-}7$ & $1.65\text{e-}5$ & $1.26\text{e-}7$ & 99.24\% & 51.9\% & 89.6\% & 0.03153 & 1.544\% \\
+Euchromatin (KI-BIC) & 2,812,997,330 & $3.98\text{e-}4$ & $1.34\text{e-}9$ & $1.22\text{e-}5$ & $5.86\text{e-}11$ & 100.00\% & 37.0\% & 86.4\% & 0.02292 & 1.541\% \\
+Satellite (KI-BIC) & 303,097,395 & $9.88\text{e-}4$ & $1.69\text{e-}5$ & $6.02\text{e-}4$ & $1.32\text{e-}5$ & 97.85\% & 80.9\% & 96.5\% & 0.28328 & 1.575\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Complete 24-chromosome Klein $V_4$ and THM-D7 Kittler--Illingworth BIC partition summary ($d=3\text{ bp}$, $100\text{-kb}$ sectors; $0.0\%$ clipping on all 24 chromosomes).}
+\label{tab:chr24}
+\scriptsize
+\setlength{\tabcolsep}{3.4pt}
+\begin{tabular}{@{}lrrrrrrrrrr@{}}
+\toprule
+\textbf{Chr} & \textbf{Len (Mb)} & \textbf{GC\%} & \textbf{Sat\%} & $\dBIC$ & \textbf{Whole PR2} & \textbf{Euch PR2} & \textbf{Euch $\|\Wmp\|^2$} & \textbf{Euch $K_{\mathrm{nonbr}}^{\mathrm{MM}}$} & \textbf{Sat 171-bp} & \textbf{Pal Enr.} \\
+\midrule
+\texttt{chr1}  & 248.39 & 41.50 &  8.6 & 2050.1 & 70.08\% & 100.00\% & $1.34\text{e-}5$ & 0.02327 & $+0.1046$ & $0.735\times$ \\
+\texttt{chr2}  & 242.70 & 40.24 &  3.5 & 1441.9 & 99.55\% & 100.00\% & $1.15\text{e-}5$ & 0.01795 & $+0.1285$ & $0.797\times$ \\
+\texttt{chr3}  & 201.11 & 39.44 &  5.7 & 1824.7 & 96.91\% & 100.00\% & $1.10\text{e-}5$ & 0.01652 & $+0.0274$ & $0.824\times$ \\
+\texttt{chr4}  & 193.57 & 38.13 &  6.3 & 2527.0 & 96.47\% & 100.00\% & $1.01\text{e-}5$ & 0.01486 & $+0.0529$ & $0.829\times$ \\
+\texttt{chr5}  & 182.05 & 39.52 &  5.5 & 1722.6 & 98.70\% & 100.00\% & $1.08\text{e-}5$ & 0.01623 & $+0.1513$ & $0.801\times$ \\
+\texttt{chr6}  & 172.13 & 39.61 &  4.1 & 1231.3 & 98.95\% & 100.00\% & $1.11\text{e-}5$ & 0.01756 & $+0.1416$ & $0.802\times$ \\
+\texttt{chr7}  & 160.57 & 40.72 &  7.9 &  781.0 & 98.24\% & 100.00\% & $1.23\text{e-}5$ & 0.02059 & $+0.1455$ & $0.783\times$ \\
+\texttt{chr8}  & 146.26 & 40.23 &  3.6 & 1023.5 & 99.28\% & 100.00\% & $1.13\text{e-}5$ & 0.01765 & $+0.1744$ & $0.797\times$ \\
+\texttt{chr9}  & 150.62 & 41.35 & 20.8 & 1863.5 & 99.96\% &  99.99\% & $1.26\text{e-}5$ & 0.02115 & $+0.0570$ & $0.639\times$ \\
+\texttt{chr10} & 134.76 & 41.54 &  4.4 &  919.6 & 97.99\% & 100.00\% & $1.31\text{e-}5$ & 0.02169 & $+0.1434$ & $0.779\times$ \\
+\texttt{chr11} & 135.13 & 41.55 &  7.8 & 1015.9 & 97.96\% & 100.00\% & $1.16\text{e-}5$ & 0.01756 & $+0.0862$ & $0.767\times$ \\
+\texttt{chr12} & 133.32 & 40.77 &  2.0 &  659.3 & 98.74\% & 100.00\% & $1.30\text{e-}5$ & 0.02317 & $+0.2826$ & $0.780\times$ \\
+\texttt{chr13} & 113.57 & 38.32 & 21.0 & 1716.6 & 76.72\% & 100.00\% & $1.02\text{e-}5$ & 0.01484 & $+0.0302$ & $0.924\times$ \\
+\texttt{chr14} & 101.16 & 41.07 & 18.4 &  763.0 & 97.55\% &  99.99\% & $1.14\text{e-}5$ & 0.01753 & $+0.1111$ & $0.777\times$ \\
+\texttt{chr15} &  99.75 & 42.12 & 17.8 &  792.0 & 59.33\% & 100.00\% & $1.38\text{e-}5$ & 0.02400 & $+0.1045$ & $0.781\times$ \\
+\texttt{chr16} &  96.33 & 43.53 & 16.5 &  609.6 & 57.05\% &  99.99\% & $1.83\text{e-}5$ & 0.03377 & $+0.0101$ & $0.661\times$ \\
+\texttt{chr17} &  84.28 & 45.28 &  4.6 &  531.6 & 95.96\% &  99.95\% & $2.10\text{e-}5$ & 0.04117 & $+0.3373$ & $0.711\times$ \\
+\texttt{chr18} &  80.54 & 39.80 &  6.8 & 1259.0 & 87.65\% &  99.99\% & $1.12\text{e-}5$ & 0.01769 & $+0.4221$ & $0.785\times$ \\
+\texttt{chr19} &  61.71 & 47.66 &  7.9 &  403.5 & 90.35\% &  99.96\% & $3.07\text{e-}5$ & 0.06103 & $+0.3946$ & $0.676\times$ \\
+\texttt{chr20} &  66.21 & 43.72 &  7.6 &  480.2 & 87.57\% &  99.99\% & $1.52\text{e-}5$ & 0.02545 & $+0.3622$ & $0.730\times$ \\
+\texttt{chr21} &  45.09 & 41.65 & 24.7 &  378.6 & 88.60\% &  99.98\% & $1.14\text{e-}5$ & 0.01771 & $+0.0400$ & $0.849\times$ \\
+\texttt{chr22} &  51.32 & 45.85 & 25.3 &  294.5 & 87.99\% &  99.96\% & $2.09\text{e-}5$ & 0.03723 & $+0.1456$ & $0.755\times$ \\
+\texttt{chrX}  & 154.26 & 39.51 &  5.5 & 1208.9 & 98.89\% & 100.00\% & $1.03\text{e-}5$ & 0.01650 & $+0.1292$ & $0.814\times$ \\
+\texttt{chrY}  &  62.46 & 36.15 & 58.2 & 1161.0 & 56.86\% &  99.43\% & $1.16\text{e-}5$ & 0.01892 & $+0.1011$ & $1.198\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig1_human24_overview.png}
+  \caption{Executive overview of the 24-chromosome Human T2T-CHM13v2.0 Torus Disk Atlas (v1.5.3). (A) PR2-compliant directed flux share before and after THM-D7 KI-BIC satellite stripping. (B) Non-bridge screen memory $K_{\mathrm{nonbr}}^{\mathrm{MM}}$ ($d=3\text{ bp}$) separating euchromatin from satellite compartments across all 24/24 chromosomes. (C) Satellite disk share and 171-bp $\alpha$-satellite resonance excess. (D) Multi-scale WLS Hurst exponents $H$ across unified THM-D7 euchromatin ($100\text{ kb}\to 6.4\text{ Mb}$).}
+  \label{fig:overview}
+\end{figure}
+
+\subsection{Karyotype Ideogram and Alignment-Free Directed Geometry}
+Mapping $\log_{10}(\|\Wmp\|^2_{\mathrm{unb}})$ at $100\text{-kb}$ resolution (masked at sector $\mathrm{SNR}<3$) reveals a sharp karyotype-wide contrast between quiet euchromatic arms and high-flux centromeric, pericentromeric, and acrocentric short-arm blocks delineated blindly by the KI-BIC brackets (Figure~\ref{fig:ideogram}). Notice that 6-bp palindrome enrichment at $d=3\text{ bp}$ is globally depleted across autosomes (median $0.782\times$, down to $0.639\times$ on \texttt{chr9}) yet flips above unity exclusively on \texttt{chrY} ($1.198\times$), reflecting its dense ampliconic palindromic arms.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig2_human24_karyotype_ideogram.png}
+  \caption{Unbiased toric karyotype ideogram of all 24 Human T2T-CHM13v2.0 chromosomes ($\log_{10}\|\Wmp\|^2_{\mathrm{unb}}$; gray denotes sectors with $\mathrm{SNR}<3$). Magenta brackets mark data-driven THM-D7 satellite, centromeric, and rDNA blocks identified blindly via constrained Kittler--Illingworth BIC on $\log_{10}(\Inbraw)$.}
+  \label{fig:ideogram}
+\end{figure}
+
+In alignment-free cosine distance across the directed subspace $\Wmp \oplus \Wmm$ (Figure~\ref{fig:heatmaps}), unpartitioned chromosomes are dominated by satellite composition: \texttt{chrY}, \texttt{chr9}, \texttt{chr15}, and \texttt{chr16} form high-distance outliers (up to $0.989$ between \texttt{chrY} and \texttt{chr18}), and \texttt{chrY}'s nearest full-disk neighbor is \texttt{chr9} ($0.3041$) purely due to shared HSat3 $(\texttt{GGAAT})_n$ arrays. Stripping satellites collapses typical autosomal distances below $0.002$ (e.g., \texttt{chr2}--\texttt{chr8} $= 0.0006$, \texttt{chr3}--\texttt{chr5} $= 0.0006$, \texttt{chr9}--\texttt{chr10} $= 0.0009$), restores \texttt{chrX} as \texttt{chrY}'s closest partner ($0.0401$), and exposes a clean euchromatic GC/gene-density axis separating \texttt{chr19}, \texttt{chr17}, \texttt{chr22}, and \texttt{chr16} from AT-rich autosomes (maximum distance $0.2172$ between \texttt{chr13} and \texttt{chr19}).
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig3_human24_similarity_heatmaps.png}
+  \caption{Alignment-free $24\times 24$ cosine distance in the directed subspace $\Wmp \oplus \Wmm$. (A) Full chromosomes, where pericentromeric satellites dominate inter-chromosomal distances. (B) Satellite-stripped euchromatin (THM-D7 KI-BIC), revealing tight autosomal convergence and a distinct GC-rich cluster (\texttt{chr16}, \texttt{chr17}, \texttt{chr19}, \texttt{chr22}).}
+  \label{fig:heatmaps}
+\end{figure}
+
+\subsection{Spectral Manifold Collapse and Inter-Chromosomal Coherence (Theorem~\ref{thm:coherence})}
+\label{sec:manifold}
+Eigendecomposing the double-centered unit-vector Gram matrix $B = H(1-D)H$ ($H = I - \frac{1}{n}\mathbf{1}\mathbf{1}^\top$) of the $24\times 24$ directed cosine distances quantifies the dramatic geometric collapse triggered by THM-D7 satellite stripping:
+\begin{itemize}
+  \item \textbf{Full Disk vs.\ Clean Euchromatin Dispersion:} Removing satellites compresses total spectral dispersion $\mathrm{tr}(B)$ by $9.61\times$ (from $8.1766$ to $0.8508$) and shrinks the median pairwise cosine distance across all $\binom{24}{2}=276$ chromosome pairs by $18.1\times$ (from $0.3084$ to $0.0171$), while lowering the effective spectral dimension (participation ratio $\mathrm{PR}=(\sum\lambda_k)^2/\sum\lambda_k^2$) from $3.44$ (PC1 $=48.54\%$, PC2 $=19.69\%$) to $1.58$ (PC1 $=78.69\%$, PC2 $=10.72\%$, PC1+PC2 $=89.40\%$, PC1--3 $=93.13\%$).
+  \item \textbf{One-Dimensional Autosomal Manifold and Unique \texttt{chrY} Excursion:} Across the 22 autosomes alone, the $1024$-dimensional euchromatic arrow collapses onto a single dominant axis explaining $\mathbf{87.97\%}$ of total variance ($\mathrm{PR}=\mathbf{1.29}$; PC1+PC2 $=92.47\%$), tracking chromosomal GC\% almost linearly ($r=+0.9681$, $\rho=+0.9142$, $p=2.74\times 10^{-9}$) from AT-rich \texttt{chr13}/\texttt{chr4} to GC/Alu-rich \texttt{chr19}/\texttt{chr17}/\texttt{chr22}. When sex chromosomes are included, \texttt{chrY} generates the sole major orthogonal excursion along PC2 ($+0.2705$, exceeding $3\times$ the next chromosome \texttt{chr17} at $+0.0890$).
+  \item \textbf{Constructive Arrow Coherence vs.\ $94.4\times$ Chiral Cancellation:} Evaluating Theorem~\ref{thm:coherence} across all 24 chromosomes reveals a $90.4\times$ coherence contrast: euchromatic $\Wmp$ attains $\kappa_{\mathrm{euch}}(-+)=\mathbf{95.82\%}$ (pooled $1.217\times 10^{-5}$ vs.\ weighted average $1.270\times 10^{-5}$), proving that all 24 chromosomes share virtually the same $1024$-D directional arrow tensor. By contrast, satellite chiral flow cancels $35.2\times$ upon pooling ($\kappa_{\mathrm{sat}}(--)=2.84\%$), and whole-genome chiral and static PR2 defects cancel $94.4\times$ ($\kappa_{\mathrm{whole}}(--)=1.06\%$) and $87.1\times$ ($\kappa_{\mathrm{whole}}(+-)=1.15\%$), explaining mathematically why global whole-genome PR2 compliance ($99.24\%$) masks severe chromosome-specific satellite parity breaks.
+\end{itemize}
+
+\subsection{Theorem D10: 8-Strata Entropy Phase Transition}
+Stratifying all $31{,}161$ valid 100-kb sectors by local 3-mer Shannon entropy $\Hthree$ confirms a sharp phase transition at $\Hthree \approx 5.65\text{ bits}$ (Table~\ref{tab:d10}, Figure~\ref{fig:phase}). Notably, $0.0\%$ of sectors exhibit negative unbiased $\|\Wmp\|^2_{\mathrm{unb}}$ in any of the eight strata. Across the five low-entropy strata ($\Hthree < 5.65\text{ bits}$, $1{,}686$ sectors), chiral flow $\|\Wmm\|^2_{\mathrm{unb}}$ remains elevated at $(5.3\text{--}9.6)\times 10^{-5}$ with high non-bridge memory ($\Inb \in [0.308, 0.705]\text{ nats}$) and a local PR2-compliance trough ($72.86\%$) in the $5.50\text{--}5.65\text{ bit}$ pericentromeric transition zone. Above $5.65\text{ bits}$ ($29{,}475$ sectors), $\|\Wmm\|^2_{\mathrm{unb}}$ drops abruptly by more than five orders of magnitude to $1.55\times 10^{-10}$ ($5.75\text{--}5.85\text{ bits}$), locking PR2 compliance at $100.00\%$. Within the highest-entropy GC-rich euchromatin ($\Hthree \ge 5.85\text{ bits}$, $5{,}811$ sectors), $\|\Wmp\|^2_{\mathrm{unb}}$ doubles to $2.26\times 10^{-5}$ alongside a rise in non-envelope 3600-D arrow share from $35.4\%$ to $50.4\%$, consistent with higher coding and regulatory-element density.
+
+Crucially, juxtaposing Table~\ref{tab:d10} against the THM-D7 KI-BIC partition reveals why non-bridge memory outperforms any fixed 1D entropy threshold: the five strata below $5.65\text{ bits}$ comprise $1{,}686$ sectors ($5.41\%$), whereas KI-BIC identifies $3{,}031$ satellite sectors ($9.73\%$). The difference---$1{,}345$ high-entropy tandem/centromeric sectors ($4.32\%$ of the genome) with $\Hthree \ge 5.65\text{ bits}$---explains why the $5.65$--$5.75\text{ bit}$ bin retains $\|\Wmm\|^2_{\mathrm{unb}} = 6.79\times 10^{-8}$ ($1{,}159\times$ above KI-BIC euchromatin), which vanishes once KI-BIC strips those hidden $\alpha$-satellite HOR sectors. Moreover, the five low-entropy strata resolve a clean tri-phase satellite stratigraphy: bins $<5.00\text{ bits}$ are pure HSat2/3 $(\texttt{GGAAT})_n$; bin $5.00$--$5.30\text{ bits}$ captures AT-rich HSat1 with a $3.8\times$ 6-bp palindrome spike ($5.89\%$ vs.\ $1.54\%$ genome-wide); and bin $5.50$--$5.65\text{ bits}$ captures unidirectional centromeric $\alpha$-satellite HORs (led by \texttt{CTC-TGT} and \texttt{AGT-TGA}), driving both the non-monotonic $\Inb$ rebound ($0.308\to 0.425\text{ nats}$) and the global PR2 trough ($72.86\%$).
+
+\begin{table}[htbp]
+\centering
+\caption{Theorem D10: 3.12-Gb 8-strata entropy phase diagram across $\Hthree$ bins ($d=3\text{ bp}$; $0.0\%$ negative $\|\Wmp\|^2_{\mathrm{unb}}$ sectors in every stratum).}
+\label{tab:d10}
+\scriptsize
+\setlength{\tabcolsep}{3.6pt}
+\begin{tabular}{@{}lrrrrrrrrr@{}}
+\toprule
+$\Hthree$ \textbf{Stratum} & \textbf{Sectors} & \textbf{Pairs $N$} & $\|\Wpp\|^2$ & $\|\Wmp\|^2_{\mathrm{unb}}$ & $\|\Wmm\|^2_{\mathrm{unb}}$ & \textbf{PR2-ok} & $\Inb$ & \textbf{Non-Env} & \textbf{CpG-free} \\
+\midrule
+$<4.50$      &    179 &    17,899,105 & $1.24\text{e-}2$ & $1.20\text{e-}2$ & $5.31\text{e-}5$ &  99.56\% & 0.70528 & 84.0\% & 99.2\% \\
+$4.50$--$5.00$ &    832 &    83,195,840 & $3.95\text{e-}3$ & $3.40\text{e-}3$ & $7.35\text{e-}5$ &  97.88\% & 0.59515 & 80.4\% & 94.3\% \\
+$5.00$--$5.30$ &    208 &    20,798,960 & $2.36\text{e-}3$ & $5.95\text{e-}4$ & $9.57\text{e-}5$ &  86.14\% & 0.41179 & 68.4\% & 98.6\% \\
+$5.30$--$5.50$ &     54 &     5,399,730 & $1.36\text{e-}3$ & $7.41\text{e-}4$ & $5.72\text{e-}5$ &  92.84\% & 0.30827 & 76.7\% & 97.6\% \\
+$5.50$--$5.65$ &    413 &    41,297,935 & $6.65\text{e-}4$ & $2.41\text{e-}4$ & $8.97\text{e-}5$ &  72.86\% & 0.42480 & 76.7\% & 93.6\% \\
+\midrule
+$5.65$--$5.75$ &  6,043 &   604,269,785 & $4.62\text{e-}4$ & $1.05\text{e-}5$ & $6.79\text{e-}8$ &  99.36\% & 0.01635 & 36.5\% & 89.3\% \\
+$5.75$--$5.85$ & 17,621 & 1,762,011,895 & $3.97\text{e-}4$ & $1.18\text{e-}5$ & $1.55\text{e-}10$ & 100.00\% & 0.02060 & 35.4\% & 86.3\% \\
+$\ge 5.85$   &  5,811 &   581,070,945 & $3.82\text{e-}4$ & $2.26\text{e-}5$ & $3.13\text{e-}10$ & 100.00\% & 0.04520 & 50.4\% & 86.9\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig4_human24_D10_entropy_phase_diagram.png}
+  \caption{Theorem D10: 8-strata entropy phase diagram across all 24 Human T2T chromosomes. (A) Unbiased Klein energies ($\|\Wmp\|^2_{\mathrm{unb}}, \|\Wmm\|^2_{\mathrm{unb}}$) and PR2-compliant flux share showing the five-order-of-magnitude collapse of chiral flow above $\Hthree = 5.65\text{ bits}$. (B) THM-D13 non-envelope 3600-D arrow share, CpG-free share, and $\Inb$ across entropy strata.}
+  \label{fig:phase}
+\end{figure}
+
+
+% =====================================================================
+\section{Anatomy of the Directional Arrow, Multi-Lag Aliasing, and Statistical Controls}
+\label{sec:results_b}
+% =====================================================================
+
+\subsection{Theorems D11 \& D13: Non-Envelope 3600-D Syntax and CpG-Free Motif Spectrum}
+Applying the $V_4$-closed screen envelope projector $\Pienv$ of Eq.~\eqref{eq:pienv} to the pooled $2.813\text{ Gb}$ euchromatin arrow $\Wmp$ at $d=3\text{ bp}$ demonstrates that $37.0\%$ of $\|\Wmp\|^2$ ($4.50\times 10^{-6}$ out of $1.22\times 10^{-5}$; $68.0\%$ outside the naive 256-D one-sided bridge) lies strictly inside the $3600$-dimensional orthogonal complement $(I-\Pienv)\Wmp$ with $<3\times 10^{-20}$ quadrant leakage. Across individual chromosomes, this pure non-envelope share ranges from $33.6\%$ (\texttt{chr13}) to $57.9\%$ (\texttt{chr19}, median $35.6\%$), tracking GC-rich and Alu-dense chromosomes (\texttt{chr17}: $50.9\%$, \texttt{chr16}: $46.4\%$, \texttt{chr22}: $45.5\%$; Figure~\ref{fig:d11}A).
+
+Simultaneously, $86.4\%$ of pooled euchromatic $\|\Wmp\|^2$ (range $85.5\%$--$87.9\%$ across all 24 chromosomes) resides on 6-mer pairs containing no \texttt{CG} dinucleotide either inside the constituent triplets or across the $3\text{-bp}$ junction. Crucially, all 15 of the top-15 canonical Klein-orbit directed 6-mer motifs in human euchromatin are strictly CpG-free (Table~\ref{tab:top15}, Figure~\ref{fig:d11}B). Unlike the satellite compartment---where five phase-shifted HSat2/3 $(\texttt{GGAAT})_n$ orbits alone account for $86.28\%$ of $\|\Wmp\|^2$---euchromatic flux is broadly distributed, with the top-15 orbits contributing only $19.71\%$ cumulatively. Two distinct sequence classes dominate this top-15 spectrum: GC-rich polypurine/polypyrimidine and Alu-enriched motifs (\texttt{GGG-AGG/CCT-CCC} at $2.12\%$, \texttt{GCC-TCC/GGA-GGC} at $1.81\%$, \texttt{TCC-CAG/CTG-GGA} at $1.73\%$, \texttt{CCC-AGC/GCT-GGG} at $1.33\%$) alongside AT-rich poly(A)/LINE-1 tail boundary motifs (\texttt{AAA-ATT/AAT-TTT} at $1.28\%$, \texttt{ATT-TTT/AAA-AAT} at $1.24\%$, \texttt{ATT-TTA/TAA-AAT} at $1.05\%$).
+
+\begin{table}[htbp]
+\centering
+\caption{Theorem D11: Grand-pooled euchromatin ($2.813\text{ Gb}$, $d=3\text{ bp}$) Top-15 canonical directed 6-mer flux orbits ranked by exact Klein-orbit share of $\|\Wmp\|^2$. All 15 orbits are strictly CpG-free ($19.71\%$ cumulative share).}
+\label{tab:top15}
+\scriptsize
+\setlength{\tabcolsep}{4.2pt}
+\begin{tabular}{@{}rllrr|rllrr@{}}
+\toprule
+\textbf{\#} & \textbf{Motif} & \textbf{Mirror} & \textbf{$\Wmp$ Flux} & \textbf{Share} & \textbf{\#} & \textbf{Motif} & \textbf{Mirror} & \textbf{$\Wmp$ Flux} & \textbf{Share} \\
+\midrule
+ 1 & \texttt{GGG-AGG} & \texttt{CCT-CCC} & $2.543\text{e-}4$ & 2.12\% &  9 & \texttt{TGG-GAG} & \texttt{CTC-CCA} & $1.912\text{e-}4$ & 1.20\% \\
+ 2 & \texttt{GCC-TCC} & \texttt{GGA-GGC} & $2.349\text{e-}4$ & 1.81\% & 10 & \texttt{CAG-GAG} & \texttt{CTC-CTG} & $1.861\text{e-}4$ & 1.14\% \\
+ 3 & \texttt{TCC-CAG} & \texttt{CTG-GGA} & $2.292\text{e-}4$ & 1.73\% & 11 & \texttt{AGA-AAT} & \texttt{ATT-TCT} & $1.851\text{e-}4$ & 1.13\% \\
+ 4 & \texttt{CCC-AGC} & \texttt{GCT-GGG} & $2.013\text{e-}4$ & 1.33\% & 12 & \texttt{GCC-TGG} & \texttt{CCA-GGC} & $1.815\text{e-}4$ & 1.08\% \\
+ 5 & \texttt{GAA-AAC} & \texttt{GTT-TTC} & $2.011\text{e-}4$ & 1.33\% & 13 & \texttt{ATT-TTA} & \texttt{TAA-AAT} & $1.785\text{e-}4$ & 1.05\% \\
+ 6 & \texttt{CCT-GGG} & \texttt{CCC-AGG} & $2.002\text{e-}4$ & 1.32\% & 14 & \texttt{TAT-TTT} & \texttt{AAA-ATA} & $1.729\text{e-}4$ & 0.98\% \\
+ 7 & \texttt{AAA-ATT} & \texttt{AAT-TTT} & $1.973\text{e-}4$ & 1.28\% & 15 & \texttt{TGC-AGT} & \texttt{ACT-GCA} & $1.723\text{e-}4$ & 0.98\% \\
+ 8 & \texttt{ATT-TTT} & \texttt{AAA-AAT} & $1.941\text{e-}4$ & 1.24\% &    & \multicolumn{2}{l}{\textbf{Top-15 Total (0/15 CpG)}} & --- & \textbf{19.71\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig5_human24_D11_arrow_anatomy_motifs.png}
+  \caption{Theorems D11 \& D13: Orthogonal non-envelope and CpG-free anatomy of human euchromatic $\Wmp$. (A) Per-chromosome pure 3600-D non-envelope share (cyan) and strictly CpG-free share (purple) across all 24 chromosomes. (B) Top-15 canonical directed 6-mer flux orbits in pooled euchromatin; all 15 bars are blue (strictly CpG-free).}
+  \label{fig:d11}
+\end{figure}
+
+\subsection{Theorems D12 \& D19: Multi-Lag Spectrum and Exact $\bmod\,5$ Tandem-Repeat Aliasing}
+Evaluating $B^{(d)}$ across ten lags spanning the helical turn ($d=10,11\text{ bp}$), nucleosome core ($147\text{ bp}$), and $\alpha$-satellite monomer ($171\text{ bp}$) reveals a striking contrast between the unpartitioned whole genome and satellite-stripped euchromatin (Table~\ref{tab:multilag}, Figure~\ref{fig:d12}A).
+
+On the whole genome, $\|\Wmp\|^2_{\mathrm{unb}}$ drops sharply at every lag divisible by $5$ ($d=10,15,30,90$) and rebounds strongly at $d=11$ ($6.93\times 10^{-6}$), $d=147$ ($1.59\times 10^{-6}$), and $d=171\text{ bp}$ ($2.46\times 10^{-6}$). \textbf{Theorem D19} (Theorem~\ref{thm:aliasing}) proves this is an exact arithmetic aliasing effect of the pentameric HSat2/3 repeat $(\texttt{GGAAT})_n$ ($p=5$): for any ideal period-$p$ tandem repeat, $c_{i+d}=c_i$ whenever $d \equiv 0 \pmod p$, confining $B^{(d)}$ to the $T$-symmetric diagonal ($u=v$) where antisymmetric $\Wmp=\Wmm=0$; conversely, whenever $d \not\equiv 0 \pmod 5$ ($147 \equiv 2$, $171 \equiv 1$), HSat2/3 phase shifts re-enter $\Wmp$ at full amplitude. Five phase-shifted $(\texttt{GGAAT})_n$ orbits generate $78.00\%$ of whole-genome $\|\Wmp\|^2$ at $d=147\text{ bp}$ and $82.46\%$ at $d=171\text{ bp}$.
+
+In the complete $24$-chromosome pure-euchromatin pool ($2.813\text{ Gb}$), this $\bmod\,5$ sawtooth and the $147/171\text{ bp}$ rebound vanish completely (Table~\ref{tab:multilag}): $\|\Wmp\|^2_{\mathrm{unb}}$ drops from $1.22\times 10^{-5}$ ($d=3$) to $2.63\times 10^{-6}$ ($d=6$), shows a modest B-DNA helical-turn shoulder at $d=9\text{--}10\text{ bp}$ ($2.96\text{--}2.97\times 10^{-6}$), and then decays smoothly and monotonically to $1.43\times 10^{-7}$ at $d=171\text{ bp}$ ($>1.5\times 10^4$ above $\|\Wmm\|^2_{\mathrm{unb}} = 9.49\times 10^{-12}$, preserving $\ge 99.99\%$ PR2 compliance at every lag). Meanwhile, pure euchromatic $\Inb$ decays strictly monotonically across all ten lags ($0.02292 \to 0.00276\text{ nats}$), while the 3600-D non-envelope share climbs from $37.0\%$ ($d=3$) to $73.1\%$--$86.4\%$ for $d \ge 6\text{ bp}$. Remarkably, Theorem~\ref{thm:pal_lock} explains this abrupt spectral transition: whereas zero of the top-15 euchromatic orbits at $d=3\text{ bp}$ are palindromic, for $d \ge 6\text{ bp}$ chirality-free spaced palindromes $(u,\rho(u))$ surge to rank \#1 across $d=6$ (\texttt{CCA-TGG}, $6.47\%$ from $1/1024$ of $\Wmp$ dimensions---a $66.3\times$ dimensional concentration; top-3 palindromes \texttt{CCA-TGG}, \texttt{TTT-AAA}, \texttt{GTG-CAC} capture $8.99\%$, $30.7\times$ enrichment), $d=9$ (\texttt{CTG-CAG}, $3.15\%$, $32.3\times$), $d=11$ (\texttt{CCC-GGG}, $1.78\%$), and $d=15\text{ bp}$ (\texttt{CAG-CTG}, $1.95\%$, displaying an exact phase-dependent orientation reversal relative to \texttt{CTG-CAG} at $d=9$ and $30\text{ bp}$). Because every palindromic arrow mode carries $(15/16)^2 = 87.89\%$ single-mode escape and $\ge 56.25\%$ universal escape (Theorem~\ref{thm:pal_lock}), their emergence algebraically drives the jump in pure 3600-D non-envelope syntax at $d \ge 6\text{ bp}$. (Note two exact accounting conventions at $d\ge 6\text{ bp}$: orbits are ranked by single-entry flux amplitude $|(\Wmp)_{u,v}|$, under which size-2 palindromes lead $d=6,9,11,15\text{ bp}$, whereas by total orbit energy $m_{\mathrm{orb}}w^2$, size-4 orbits \texttt{CTC-CTG} [$4.75\%$], \texttt{GGT-CCT} [$3.19\%$], and \texttt{TCC-ATT} [$3.13\%$] exceed the size-2 palindromes at $d=9,11,15\text{ bp}$ while \texttt{CCA-TGG} [$6.47\%$] leads under both criteria at $d=6\text{ bp}$; and the CpG-free filter conservatively excludes concatenated junction \texttt{C|G} pairs even across $d-3\text{ bp}$ spacers, making the $86.4\%$--$91.9\%$ CpG-free shares strict lower bounds.)
+
+\begin{table}[htbp]
+\centering
+\caption{Theorems D12 \& D19: Grand-pooled 10-lag spectrum comparing Whole Genome ($3.117\text{ Gb}$, subject to $\bmod\,5$ HSat2/3 aliasing) against 24-chromosome Pure Euchromatin ($2.813\text{ Gb}$, THM-D7 satellite-stripped; Top-1 motifs ranked by per-entry amplitude $|(\Wmp)_{u,v}|$, with exact Klein-orbit share shown).}
+\label{tab:multilag}
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}rr|rrr|rrrrrl@{}}
+\toprule
+ & & \multicolumn{3}{c|}{\textbf{Whole Genome (3.117 Gb)}} & \multicolumn{6}{c}{\textbf{Pure Euchromatin (2.813 Gb, THM-D7 KI-BIC)}} \\
+\textbf{$d$ (bp)} & \textbf{$d\bmod 5$} & $\|\Wmp\|^2_{\mathrm{unb}}$ & \textbf{PR2-ok} & $\Inb$ & $\|\Wmp\|^2_{\mathrm{unb}}$ & $\|\Wmm\|^2_{\mathrm{unb}}$ & \textbf{PR2-ok} & $\Inb$ & \textbf{Non-Env} & \textbf{Top-1 Motif (Share)} \\
+\midrule
+  3 & 3 & $1.65\text{e-}5$ & 99.24\% & 0.03153 & $1.22\text{e-}5$ & $5.86\text{e-}11$ & 100.00\% & 0.02292 & 37.0\% & \texttt{GGG-AGG} (2.12\%) \\
+  6 & 1 & $7.45\text{e-}6$ & 98.35\% & 0.02576 & $2.63\text{e-}6$ & $4.25\text{e-}11$ & 100.00\% & 0.02152 & 78.7\% & \texttt{CCA-TGG} (6.47\%) \\
+  9 & 4 & $6.78\text{e-}6$ & 98.16\% & 0.02765 & $2.96\text{e-}6$ & $2.57\text{e-}11$ & 100.00\% & 0.01769 & 77.7\% & \texttt{CTG-CAG} (3.15\%) \\
+ 10 & 0 & $3.12\text{e-}6$ & 98.61\% & 0.02558 & $2.97\text{e-}6$ & $3.13\text{e-}11$ & 100.00\% & 0.01693 & 73.1\% & \texttt{CCC-TGG} (3.44\%) \\
+ 11 & 1 & $6.93\text{e-}6$ & 98.46\% & 0.02012 & $2.67\text{e-}6$ & $4.34\text{e-}11$ & 100.00\% & 0.01604 & 81.3\% & \texttt{CCC-GGG} (1.78\%) \\
+ 15 & 0 & $2.19\text{e-}6$ & 97.95\% & 0.02126 & $2.05\text{e-}6$ & $2.46\text{e-}11$ & 100.00\% & 0.01391 & 78.7\% & \texttt{CAG-CTG} (1.95\%) \\
+ 30 & 0 & $2.13\text{e-}6$ & 98.19\% & 0.01936 & $1.90\text{e-}6$ & $2.06\text{e-}11$ & 100.00\% & 0.01184 & 81.3\% & \texttt{CTC-GCC} (7.20\%) \\
+ 90 & 0 & $7.10\text{e-}7$ & 95.19\% & 0.01067 & $5.54\text{e-}7$ & $7.29\text{e-}12$ & 100.00\% & 0.00482 & 83.8\% & \texttt{CAG-TGG} (8.13\%) \\
+147 & 2 & $1.59\text{e-}6$ & 96.39\% & 0.00711 & $2.06\text{e-}7$ & $4.36\text{e-}12$ & 100.00\% & 0.00277 & 76.9\% & \texttt{TTT-CCA} (7.07\%) \\
+171 & 1 & $2.46\text{e-}6$ & 97.42\% & 0.00789 & $1.43\text{e-}7$ & $9.49\text{e-}12$ &  99.99\% & 0.00276 & 86.4\% & \texttt{CTA-AAA} (10.54\%) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Theorems D8 \& D14--D18: Cluster Inference, Current Nulls, WW--SS Pitch, Hurst Scaling, and PELT Concordance}
+Table~\ref{tab:controls} consolidates all six Zero-RNG falsification and structural controls across the 24 chromosomes (Figure~\ref{fig:d12}B--C):
+\begin{itemize}
+  \item \textbf{THM-D14 (1-Mb Euchromatin LOO Newey--West HAC~\cite{Newey1987}):} Whereas naive disjoint Bowker $\chi^2$ tests yield astronomical unadjusted tails ($\log_{10} p \in [-828{,}246.7, -88{,}046.8]$) inflated by Mb-scale Rao--Scott clustering, all $24/24$ chromosomes still reject $H_0:\Wmp=0$ decisively under conservative leave-one-block-out 1-Mb cluster projection with Bartlett HAC standard errors ($t_{\mathrm{HAC}} \in [19.56, 112.73]$, median $42.16$; exact two-sided block sign test $p \in [3.62\times 10^{-71}, 1.49\times 10^{-8}]$).
+  \item \textbf{THM-D15 (Compositional Current Null $E_{\mathrm{loc}}$, $M=1000\text{ bp}$):} On $24/24$ chromosomes, subtracting $E_{\mathrm{loc}}$ leaves $100.00\%$ residual energy of $\Wmp$. Although the normalized direction correlates weakly positively ($\cos \in [+0.02, +0.29]$), its amplitude $\|W_{\mathrm{cur}}\|$ is orders of magnitude smaller than $\|\Wmp\|$, ruling out kb-scale compositional gradients as the generator of directional flux.
+  \item \textbf{THM-D16 (Euchromatin WW--SS Nucleosome Antiphase):} Under quadratic+3-bp pre-whitening and Hann ENBW-adjusted $F_{2,2M_{\mathrm{eff}}}$ testing ($m_{\mathrm{eff}}=14$), GC-rich chromosomes enter the $150^\circ$--$180^\circ$ WW--SS antiphase corridor at $10.4\text{ nt}$ (\texttt{chr16}: $159.7^\circ, p_{\mathrm{adj}}=2.62\times 10^{-2}$; \texttt{chr19}: $161.0^\circ, p_{\mathrm{adj}}=4.04\times 10^{-2}$), whereas AT-rich whole-euchromatin averages yield $p_{\mathrm{adj}}>0.05$ (median $\Delta\phi=135.4^\circ$).
+  \item \textbf{THM-D8 (Jackknife WLS Hurst Persistence):} Across $100\text{ kb}\to 6.4\text{ Mb}$, $18/24$ chromosomes strictly exceed white noise ($H=0.50$) at the lower 95\% Delete-1 Macro-Block Jackknife CI (median $H_{\mathrm{WLS}}(\Wmp^{\mathrm{unb}})=0.835$, up to $0.922$ on \texttt{chr21}); six exceptions (\texttt{chr1}, \texttt{chr9}, \texttt{chr17}, \texttt{chr19}, \texttt{chr22}, \texttt{chrY}) reflect conservative jackknife intervals across pericentromeric transitions and fragmented $26\text{-Mb}$ \texttt{chrY} euchromatin ($H=-0.174\ [-1.89, 1.55]$).
+  \item \textbf{THM-D17 (FFT Circular-Shift L\'evy Area):} Zero chromosomes ($0/24$, $p_{\mathrm{shift}} \in [0.107, 0.969]$, median $0.674$) show significant Level-2 signed area between $\Wpm$ and $\Wmm$ walks once per-channel autocorrelation is preserved.
+  \item \textbf{THM-D18 (LRV-Calibrated PELT $L_2$ Concordance~\cite{Killick2012,Zhang2007}):} Independent segmentations of $\Hthree$ (median $R^2=0.867$) and $\log_{10}(\|\Wmp\|^2_{\mathrm{unb}})$ show significant changepoint concordance on $24/24$ chromosomes ($p<0.05$; median Jaccard $0.29$), peaking on \texttt{chr22} (Jaccard $0.77$, $p=2.37\times 10^{-12}$) and \texttt{chr15} (Jaccard $0.52$, $p=1.16\times 10^{-12}$).
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Theorems D8, D13--D18: Per-chromosome robustness controls across all 24 Human T2T-CHM13v2.0 chromosomes (euchromatin-specific unless noted).}
+\label{tab:controls}
+\scriptsize
+\setlength{\tabcolsep}{3.0pt}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+\textbf{Chr} & \textbf{Non-Env} & \textbf{1-Mb HAC $t$} & \textbf{D15 Res (cos)} & \textbf{WW--SS $\Delta\phi$ / $p_{\mathrm{adj}}$} & \textbf{JK $H_{\mathrm{WLS}}$ [95\% CI]} & \textbf{L\'evy $p$} & \textbf{PELT Jacc ($p$)} \\
+\midrule
+\texttt{chr1}  & 39.4\% &  34.47 & 100.0\% ($+0.19$) & $119.4^\circ$ / 0.23 & $0.716\ [0.30,1.13]$ & 0.498 & 0.29 ($3.63\text{e-}9$) \\
+\texttt{chr2}  & 34.6\% &  76.87 & 100.0\% ($+0.23$) & $134.7^\circ$ / 0.19 & $0.849\ [0.82,0.88]$ & 0.928 & 0.17 ($1.97\text{e-}5$) \\
+\texttt{chr3}  & 34.2\% &  65.83 & 100.0\% ($+0.25$) & $125.7^\circ$ / 0.26 & $0.859\ [0.83,0.89]$ & 0.914 & 0.17 ($2.57\text{e-}4$) \\
+\texttt{chr4}  & 34.0\% & 112.73 & 100.0\% ($+0.28$) & $138.1^\circ$ / 0.39 & $0.906\ [0.70,1.11]$ & 0.447 & 0.15 ($1.15\text{e-}3$) \\
+\texttt{chr5}  & 33.8\% &  74.61 & 100.0\% ($+0.25$) & $133.7^\circ$ / 0.20 & $0.853\ [0.80,0.90]$ & 0.180 & 0.11 ($2.14\text{e-}2$) \\
+\texttt{chr6}  & 34.9\% &  60.33 & 100.0\% ($+0.25$) & $129.0^\circ$ / 0.45 & $0.852\ [0.74,0.97]$ & 0.879 & 0.10 ($1.82\text{e-}2$) \\
+\texttt{chr7}  & 37.7\% &  35.93 & 100.0\% ($+0.23$) & $132.6^\circ$ / 0.20 & $0.885\ [0.85,0.92]$ & 0.373 & 0.29 ($8.11\text{e-}7$) \\
+\texttt{chr8}  & 34.9\% &  61.82 & 100.0\% ($+0.24$) & $133.8^\circ$ / 0.17 & $0.839\ [0.77,0.91]$ & 0.813 & 0.32 ($6.89\text{e-}7$) \\
+\texttt{chr9}  & 37.4\% &  32.95 & 100.0\% ($+0.20$) & $134.7^\circ$ / 0.21 & $0.580\ [-0.20,1.36]$ & 0.180 & 0.17 ($2.83\text{e-}4$) \\
+\texttt{chr10} & 37.5\% &  48.57 & 100.0\% ($+0.20$) & $124.3^\circ$ / 0.36 & $0.825\ [0.76,0.89]$ & 0.587 & 0.20 ($5.32\text{e-}4$) \\
+\texttt{chr11} & 33.9\% &  41.89 & 100.0\% ($+0.22$) & $144.6^\circ$ / 0.40 & $0.897\ [0.83,0.96]$ & 0.549 & 0.10 ($4.54\text{e-}2$) \\
+\texttt{chr12} & 40.3\% &  28.94 & 100.0\% ($+0.21$) & $128.0^\circ$ / 0.38 & $0.801\ [0.61,0.99]$ & 0.677 & 0.12 ($2.46\text{e-}2$) \\
+\texttt{chr13} & 33.6\% &  78.59 & 100.0\% ($+0.29$) & $133.9^\circ$ / 0.23 & $0.860\ [0.80,0.92]$ & 0.671 & 0.34 ($3.11\text{e-}8$) \\
+\texttt{chr14} & 34.3\% &  44.57 & 100.0\% ($+0.22$) & $136.1^\circ$ / 0.36 & $0.835\ [0.78,0.89]$ & 0.383 & 0.46 ($5.32\text{e-}11$) \\
+\texttt{chr15} & 38.8\% &  42.43 & 100.0\% ($+0.18$) & $136.2^\circ$ / 0.16 & $0.858\ [0.81,0.91]$ & 0.709 & 0.52 ($1.16\text{e-}12$) \\
+\texttt{chr16} & 46.4\% &  24.74 & 100.0\% ($+0.11$) & $159.7^\circ$ / \textbf{0.026} & $0.835\ [0.71,0.96]$ & 0.969 & 0.30 ($4.54\text{e-}6$) \\
+\texttt{chr17} & 50.9\% &  26.76 & 100.0\% ($+0.09$) & $157.4^\circ$ / 1.00 & $0.709\ [0.40,1.01]$ & 0.915 & 0.28 ($5.20\text{e-}4$) \\
+\texttt{chr18} & 34.5\% &  49.09 & 100.0\% ($+0.24$) & $136.4^\circ$ / 0.20 & $0.736\ [0.65,0.82]$ & 0.695 & 0.20 ($7.81\text{e-}3$) \\
+\texttt{chr19} & 57.9\% &  19.56 & 100.0\% ($+0.02$) & $161.0^\circ$ / \textbf{0.040} & $0.658\ [0.39,0.93]$ & 0.326 & 0.50 ($2.82\text{e-}4$) \\
+\texttt{chr20} & 39.1\% &  24.79 & 100.0\% ($+0.16$) & $154.2^\circ$ / 0.20 & $0.823\ [0.74,0.91]$ & 0.962 & 0.53 ($1.20\text{e-}7$) \\
+\texttt{chr21} & 34.1\% &  30.63 & 100.0\% ($+0.24$) & $133.4^\circ$ / 0.48 & $0.922\ [0.73,1.12]$ & 0.360 & 0.63 ($3.26\text{e-}9$) \\
+\texttt{chr22} & 45.5\% &  21.87 & 100.0\% ($+0.05$) & $158.0^\circ$ / 0.43 & $0.509\ [-0.10,1.12]$ & 0.911 & 0.77 ($2.37\text{e-}12$) \\
+\texttt{chrX}  & 34.5\% &  75.26 & 100.0\% ($+0.26$) & $141.6^\circ$ / 0.58 & $0.816\ [0.75,0.88]$ & 0.938 & 0.16 ($6.90\text{e-}4$) \\
+\texttt{chrY}  & 36.3\% &  32.96 & 100.0\% ($+0.23$) & $163.9^\circ$ / 1.00 & $-0.174\ [-1.89,1.55]$ & 0.107 & 0.53 ($6.66\text{e-}6$) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig6_human24_D12_multilag_ww_hurst.png}
+  \caption{Theorems D8, D9, D12, D16 \& D19 across all 24 chromosomes. (A) Multi-lag spectrum comparing the whole-genome $\bmod\,5$ HSat2/3 aliasing sawtooth (orange dashed) against smooth satellite-stripped euchromatic decay (red solid). (B) Euchromatin WW--SS contrast SNR and relative phase $\Delta\phi$ entering the $150^\circ$--$180^\circ$ antiphase band on GC-rich chromosomes. (C) Unified euchromatin WLS Hurst exponents $H_{\mathrm{WLS}}(\Wmp^{\mathrm{unb}})$ with Delete-1 Macro-Block Jackknife 95\% CIs (\texttt{chrY} annotated explicitly).}
+  \label{fig:d12}
+\end{figure}
+
+
+
+
+\subsection{Cross-Chromosomal Scaling Laws and Newly Identified Karyotype Invariants}
+\label{sec:scaling_laws}
+Cross-tabulating all 24 gapless chromosomes uncovers four quantitative karyotype-wide laws that independently falsify simple compositional-artifact hypotheses (Table~\ref{tab:laws}):
+\begin{enumerate}[label=(\arabic*),noitemsep,topsep=2pt]
+  \item \textbf{Arrow--Memory Lock and Anti-Gradient Inversion:} Across all 24 chromosomes, euchromatic $\|\Wmp\|^2$ scales tightly with both non-bridge mutual information $K_{\mathrm{nonbr}}^{\mathrm{MM}}(d=3)$ (Pearson $r=+0.9970$, Spearman $\rho=+0.9743$, $p=9.75\times 10^{-16}$) and pure 3600-D non-envelope share ($r=+0.9729$, $\rho=+0.8938$, $p=4.05\times 10^{-9}$). Crucially, $\|\Wmp\|^2$ is \emph{strongly anti-correlated} with the THM-D15 compositional-current alignment $\cos(\Wmp, W_{\mathrm{cur}})$ ($\rho=-0.9821$, $p=1.90\times 10^{-17}$; 22 autosomes $\rho=-0.9839$, $p=2.03\times 10^{-16}$): the strongest arrow chromosomes (\texttt{chr19}: $3.07\times 10^{-5}$, \texttt{chr22}: $2.09\times 10^{-5}$, \texttt{chr17}: $2.10\times 10^{-5}$) exhibit the \emph{weakest} gradient alignment ($\cos = +0.02, +0.05, +0.09$), directly refuting compositional drift as the generator of $\Wmp$.
+  \item \textbf{Zero-Overlap Autosomal Nucleosome-Pitch Bifurcation at $\mathrm{WW}\approx 31\%$:} Across the 22 autosomes, all five GC-rich chromosomes with $\mathrm{WW}<31\%$ (\texttt{chr16}, \texttt{chr17}, \texttt{chr19}, \texttt{chr20}, \texttt{chr22}) lock onto canonical $10.4\text{ nt}$ WW pitch \emph{and} WW--SS antiphase $\Delta\phi \in [154.2^\circ, 161.0^\circ]$, with zero overlap against all 17 AT-richer autosomes ($\mathrm{WW}>32\%$: pitch $\le 10.2\text{ nt}$ and $\Delta\phi \le 144.6^\circ$; exact Mann--Whitney $p=9.97\times 10^{-4}$ for $\Delta\phi$, $p=1.11\times 10^{-4}$ for pitch across all 24). Simultaneously, $\mathrm{WW}\%$ anti-correlates with 185-bp nucleosome-repeat autocorrelation ($\rho=-0.8765$, $p=1.97\times 10^{-8}$).
+  \item \textbf{Strict $24/24$ Multi-Scale Channel Hurst Hierarchy:} Every single chromosome ($24/24$) obeys the strict ordering $H_{\mathrm{WLS}}(\mathrm{GC}) > H_{\mathrm{WLS}}(\Inb) > H_{\mathrm{WLS}}(\Omega_{\mathrm{cond}})$ (medians $0.928 > 0.831 > 0.543$; exact Wilcoxon $p=1.19\times 10^{-7}$), separating megabase-persistent chromatin-domain memory from spatially localized 3-bp coding frame-lock syntax ($\Omega_{\mathrm{cond}}$).
+  \item \textbf{Sex-Chromosome Long-Range Memory Retention ($\eta_{90/3}$):} The non-bridge memory persistence ratio $\eta_{90/3} = K_{\mathrm{nonbr}}^{\mathrm{MM}}(90)/K_{\mathrm{nonbr}}^{\mathrm{MM}}(3)$ is tightly conserved across 19 typical autosomes ($0.166\pm 0.003$, range $0.161$--$0.171$), rises moderately on gene/Alu-rich \texttt{chr17/19/22} ($0.186$--$0.196$), and attains its two karyotype-wide maxima exclusively on the sex chromosomes (\texttt{chrX}: $0.2061$, \texttt{chrY}: $0.2384$; ranks 23 and 24 of 24, exact one-sided Mann--Whitney $p = 1/\binom{24}{2} = 3.62\times 10^{-3}$).
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\caption{Summary of cross-chromosomal karyotype invariants discovered across all 24 T2T-CHM13v2.0 chromosomes (Zero-RNG, exact nonparametric tests).}
+\label{tab:laws}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{}llX@{}}
+\toprule
+\textbf{Karyotype Invariant} & \textbf{Exact Statistic} & \textbf{Structural / Anti-Artifact Significance} \\
+\midrule
+$\|\Wmp\|^2$ vs.\ $K_{\mathrm{nonbr}}^{\mathrm{MM}}(3)$ & $r=+0.9970$, $\rho=+0.9743$ ($p=9.75\text{e-}16$) & Tight coupling of directed arrow and non-bridge memory. \\
+$\|\Wmp\|^2$ vs.\ Non-Env 3600-D & $r=+0.9729$, $\rho=+0.8938$ ($p=4.05\text{e-}9$) & Stronger euchromatic arrows are disproportionately higher-order. \\
+$\|\Wmp\|^2$ vs.\ D15 $\cos(\Wmp,W_{\mathrm{cur}})$ & $\rho=-0.9821$ ($p=1.90\text{e-}17$) & Strongest arrows have lowest drift alignment (anti-artifact). \\
+$\mathrm{WW}<31\%$ Pitch/$\Delta\phi$ Switch & $5/5$ vs.\ $0/17$ autosomes ($p=9.97\text{e-}4$) & Zero-overlap $10.4\text{ nt}$ / $154^\circ$--$161^\circ$ antiphase regime. \\
+Hurst Channel Hierarchy & $24/24$ chr ($p=1.19\text{e-}7$) & $H(\mathrm{GC})\,0.928 > H(\Inb)\,0.831 > H(\Omega_{\mathrm{cond}})\,0.543$. \\
+Sex-Chr Memory Retention $\eta_{90/3}$ & \texttt{chrX} $0.206$, \texttt{chrY} $0.238$ ($p=3.62\text{e-}3$) & Ranks 23--24/24 vs.\ autosomal baseline $0.166\pm 0.003$. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Scale-Free $1/d$ Multi-Lag Decay and Spaced-Palindrome Polarity Reversals}
+\label{sec:powerlaw}
+Once $\bmod\,5$ HSat2/3 aliasing is removed, log-log regression across the seven post-helical-turn lags $d \in \{10,11,15,30,90,147,171\}\text{ bp}$ in pooled pure euchromatin ($2.813\text{ Gb}$) reveals clean power-law scaling over a $17\times$ spatial span:
+\begin{equation}
+\begin{aligned}
+  \|\Wmp\|^2_{\mathrm{unb}}(d) &\propto d^{-0.998 \pm 0.113} \qquad (R^2=0.9397,\;\;p=3.10\times 10^{-4}), \\
+  \Inb(d) &\propto d^{-0.655 \pm 0.051} \qquad (R^2=0.9702,\;\;p=5.27\times 10^{-5}),
+\end{aligned}
+\label{eq:powerlaw}
+\end{equation}
+establishing an empirical lag-domain Information-to-Geometry Bridge from Eq.~\eqref{eq:powerlaw}, $\|\Wmp\|^2_{\mathrm{unb}}(d) \propto (\Inb(d))^{1.537\pm 0.086}$ ($R^2=0.9847$, $p=9.90\times 10^{-6}$). Across the full span $d=3\to 171\text{ bp}$, $\|\Wmp\|^2_{\mathrm{unb}}$ decays $84.9$-fold while $\Inb$ decays $8.31$-fold, yet directional irreversibility remains $1{,}614\times$ above the $1/(4N)$ pooling floor even at $171\text{ bp}$.
+
+Furthermore, inspecting the leading chirality-free palindromic modes $E^-_{u,\rho(u)}$ (Theorem~\ref{thm:pal_lock}) across lags uncovers repeatable \emph{polarity reversals} between $(u,\rho(u))$ and its reverse orientation $(\rho(u),u)$ (Table~\ref{tab:pal_flips}). Because $(u,\rho(u))$ denotes a $5'$-$u$-spacer-$\rho(u)$-$3'$ inverted-repeat pair whereas $(\rho(u),u)$ reverses the outer and inner halves of the stem, these sign flips record scale-dependent stem-loop / dispersed-repeat architecture across the human euchromatic duplex.
+
+At longer lags ($d=30, 147, 171\text{ bp}$), the residual euchromatic arrow condenses onto a sparse, annotation-free retrotransposon dipole rather than diffusing into uniform noise. Most strikingly, at $d=171\text{ bp}$, the five distinct consecutive overlapping 3-mers spanning the \texttt{CTCTACT} core of the canonical Alu central A-rich linker (\texttt{TCTCTACTA}) paired $171\text{ bp}$ upstream of the $3'$ poly(A) tail---\texttt{CTA-AAA} ($10.54\%$), \texttt{TAC-AAA} ($6.18\%$), \texttt{TCT-AAA}/\texttt{TTT-AGA} ($5.34\%$), \texttt{ACT-AAA} ($1.69\%$), and \texttt{CTC-AAA} ($1.60\%$)---collectively generate $\mathbf{25.36\%}$ of the entire $2.813\text{ Gb}$ euchromatic $\|\Wmp\|^2$ arrow. Similarly, at $d=147\text{ bp}$, all top five orbits (\#1--\#5) plus \#9 ($6$ of the top $9$, totaling $21.71\%$ of $\|\Wmp\|^2$) pair GC-rich Alu body triplets (\texttt{TGG}, \texttt{GTG}, \texttt{GGT}, \texttt{GCC}, \texttt{GGC}, \texttt{GGG}) with $3'$ \texttt{AAA} (or their exact PR2 mirrors, and $11$ of the top $15$ orbits [$29.02\%$] involve \texttt{AAA}/\texttt{TTT}), while the $d=30\text{ bp}$ concentration jump (\texttt{CTC-GCC}, $7.20\%$) reflects Alu's internal $\sim 31\text{ bp}$ dimeric spacing. Because Alu elements insert nearly $50/50$ on forward and reverse strands, this $5'\text{-core}\to 3'\text{-poly(A)}$ dipole is $99.99\%$ $R$-symmetric (zero chiral $\Wmm$) yet intensely $T$-antisymmetric ($1{,}614\times$ above the $1/(4N)$ floor).
+
+\begin{table}[htbp]
+\centering
+\caption{Spaced-palindrome polarity reversals $(u,\rho(u)) \leftrightarrow (\rho(u),u)$ in grand-pooled pure euchromatin ($2.813\text{ Gb}$); ranks reflect per-entry flux amplitude $|(\Wmp)_{u,v}|$, and every mode is algebraically locked in $\Wmp$ with $87.89\%$ single-mode and $\ge 56.25\%$ universal 3600-D non-envelope escape (Theorem~\ref{thm:pal_lock}).}
+\label{tab:pal_flips}
+\scriptsize
+\setlength{\tabcolsep}{3.4pt}
+\begin{tabularx}{\textwidth}{@{}llllrX@{}}
+\toprule
+\textbf{Pair} & \textbf{Lags (bp)} & \textbf{Dominant Orientation} & \textbf{Ranks} & \textbf{Shares (\%)} & \textbf{Polarity Transition} \\
+\midrule
+\texttt{CTG/CAG} & $9,15,30,171$ & \texttt{CTG-CAG}$\to$\texttt{CAG-CTG}$\to$\texttt{CTG-CAG}$\to$\texttt{CAG-CTG} & \#1,\#1,\#7,\#8 & $3.15,1.95,0.96,0.82$ & Triple sign flip across lags \\
+\texttt{GGC/GCC} & $15,30$ & \texttt{GGC-GCC}$\to$\texttt{GCC-GGC} & \#3,\#2 & $1.09,2.38$ & Reversal across $15\to 30\text{ bp}$ \\
+\texttt{TTT/AAA} & $6,147,171$ & \texttt{TTT-AAA}$\to$\texttt{AAA-TTT}$\to$\texttt{AAA-TTT} & \#2,\#15,\#5 & $1.60,0.57,1.19$ & Poly(A/T) boundary inversion \\
+\texttt{CCA/TGG} & $6,9,147$ & \texttt{CCA-TGG} (fixed sign) & \#1,\#3,\#13 & $6.47,1.93,0.61$ & Persistent $66.3\times$ peak at $d=6$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================
+\section{Discussion and Limitations}
+\label{sec:discussion}
+% =====================================================================
+
+Our complete Zero-RNG audit of T2T-CHM13v2.0~\cite{Nurk2022,Rhie2023,Altemose2022} establishes four structural principles of the human chromosomal medium that could not be cleanly separated prior to gapless assembly and $V_4$-closed projection~\cite{Logvinovich2026}:
+
+\paragraph{1. Chargaff PR2 Compliance Is Virtually Exact in Euchromatin ($99.9995\%$), While Satellite Arrays Break It Locally.}
+Apparent whole-chromosome departures from Chargaff's second parity rule~\cite{Chargaff1968} in directed transition space ($\Wmm$) are overwhelmingly localized to tandem satellite blocks ($9.73\%$ of sectors). Removing these blocks via the parameter-free KI-BIC criterion~\cite{Kittler1986} suppresses chiral flow $\|\Wmm\|^2_{\mathrm{unb}}$ by $2.26\times 10^5$-fold and elevates euchromatin PR2 compliance to $99.9995\%$ ($2.08\times 10^5 : 1$ ratio of $\Wmp$ to $\Wmm$). Even the grand-pooled satellite compartment exhibits $97.85\%$ PR2 compliance despite single-chromosome drops to $56.86\%$ (\texttt{chrY}) and $57.05\%$ (\texttt{chr16}), because opposite strand orientations of HSat2/3 arrays across chromosomes partially cancel chiral $\Wmm$ under global pooling while $R$-invariant $\Wmp$ adds constructively.
+
+\paragraph{2. Biochemical Origin and Multi-Scale Extent of the CpG-Free $\Wmp$ Arrow.}
+A natural objection to any $5'\!\to 3'$ irreversibility in mammalian DNA is methylated CpG deamination ($\texttt{CG}\!\to\!\texttt{TG}/\texttt{CA}$) or nearest-neighbor dinucleotide bias. Two independent controls refute reduction to nearest-neighbor CpG mechanics: (i) $37.0\%$ of euchromatic $\|\Wmp\|^2$ (up to $57.9\%$ on \texttt{chr19}) lies strictly outside the $496$-dimensional $V_4$-closed dinucleotide screen envelope $\Pienv$, rising to $73\%$--$86\%$ at $d \ge 6\text{ bp}$; and (ii) $86.4\%$ of $\|\Wmp\|^2$ and $15/15$ top canonical orbits contain no extant \texttt{CG} dinucleotide. At the same time, two biological nuances merit explicit note: historical CpG deamination products (\texttt{TG}/\texttt{CA}) can still appear inside nominally CpG-free 6-mers (e.g., \texttt{TCC-CAG/CTG-GGA}, \texttt{TGC-AGT/ACT-GCA}), whereas pure polypurine/polypyrimidine and retrotransposon polarity motifs---specifically Alu SINE cores (\texttt{GGG-AGG/CCT-CCC}, \texttt{GCC-TCC/GGA-GGC}, \texttt{CCC-AGC/GCT-GGG}) and LINE-1/poly(A) tract boundaries (\texttt{AAA-ATT/AAT-TTT}, \texttt{ATT-TTT/AAA-AAT})---visibly drive the highest-ranked orbits and explain why Alu-rich \texttt{chr19} maximizes both $\|\Wmp\|^2$ and non-envelope share. Crucially, these motifs persist in a coherent $R$-symmetric orientation down to $171\text{ bp}$ and exhibit megabase-scale Hurst persistence ($H_{\mathrm{WLS}} \approx 0.835$) across $18/24$ chromosomes.
+
+\paragraph{3. Resolution of Apparent Long-Range Rebounds via $\bmod\,5$ Aliasing.}
+Without satellite stripping, the whole-genome multi-lag curve shows misleading rebounds at nucleosome ($147\text{ bp}$) and $\alpha$-satellite ($171\text{ bp}$) lags. Theorem~D19 (Theorem~\ref{thm:aliasing}) proves this is an arithmetic artifact of $d \bmod 5$ phase sampling on HSat2/3 $(\texttt{GGAAT})_n$, confirmed by the complete disappearance of the rebound in the $2.813\text{ Gb}$ pure-euchromatin spectrum---which instead reveals a modest $9\text{--}10\text{ bp}$ helical-turn shoulder followed by smooth decay to $171\text{ bp}$.
+
+\paragraph{4. From Coding-Frame Syntax (Papers 1--3) to Chromosomal Physical Fields (Paper 4).}
+A decisive question linking this atlas to our companion coding-sequence audits~\cite{Logvinovich2026,Logvinovich2026b} is whether whole-chromosome directional irreversibility $\Wmp$ is merely diluted spillover from protein-coding exons ($\sim 1.5\%$ of human DNA). Three independent invariants prove it is not: (i) the strict $24/24$ Hurst channel hierarchy ($H_{\mathrm{WLS}}(\Inb)=0.831$ vs.\ $H_{\mathrm{WLS}}(\Omega_{\mathrm{cond}})=0.543$, $p=1.19\times 10^{-7}$) shows that 3-bp coding frame-lock $\Omega_{\mathrm{cond}}$ behaves near white noise at megabase scales, whereas $\Wmp$ and $\Inb$ form coherent megabase domains; (ii) euchromatic $\Wmp$ retains $95.82\%$ constructive inter-chromosomal coherence across all 24 chromosomes (including gene-poor \texttt{chr4}, \texttt{chr13}, and \texttt{chrY}), with $t_{\mathrm{HAC}}=112.73$ peaking on gene-sparse \texttt{chr4}; and (iii) spaced palindromes $(u,\rho(u))$ locked by Theorem~\ref{thm:pal_lock} dominate $d \ge 6\text{ bp}$ with $1/d$ scale-free decay out to $171\text{ bp}$, revealing a duplex-wide architectural field extending far beyond reading frames.
+
+\paragraph{5. Limitations and Scope Boundaries.}
+Four boundaries govern interpretation: (a) the fixed $100\text{-kb}$ sector grid leaves $1.176\text{ Mb}$ ($1{,}175{,}501\text{ bp}$, $0.038\%$) of trailing chromosomal end-segments plus $5{,}155$ gap-masked euchromatin--satellite interface pairs outside sector-pooled partitions (totaling $1.181\text{ M}$ unpooled triplet pairs); (b) T2T-CHM13v2.0 represents a single hybrid reference ($46,\mathrm{XX}$ CHM13 + HG002 \texttt{chrY}) with consensus-modeled rDNA morphs, so population structural variation across the human pangenome remains future work; (c) whole-euchromatin FFT averaging dilutes localized nucleosome positioning, leaving only \texttt{chr16} and \texttt{chr19} below $p_{\mathrm{adj}} < 0.05$ under our strict Hann ENBW-adjusted $F$-test; and (d) the KI-BIC partition is purely sequence-intrinsic and intentionally annotation-blind, so cross-referencing with RepeatMasker, TADs, and replication-timing profiles is a natural next step.
+
+\subsection{Falsification Criteria and Epistemic Firewall}
+To maintain a strict firewall between exact mathematical invariants and mechanistic interpretation, four explicit falsification tests govern our claims: (i) any chromosome in which 1-Mb LOO Newey--West HAC fails ($t_{\mathrm{HAC}} < 3$) or $E_{\mathrm{loc}}$ ($M=1000\text{ bp}$) absorbs a major fraction of $\|\Wmp\|^2$ would refute genuine directional syntax (observed: $0/24$ failures); (ii) any euchromatin lag where satellite-stripped $\|\Wmp\|^2_{\mathrm{unb}}$ re-exhibits the $\bmod\,5$ rebound would falsify Theorem~\ref{thm:aliasing} as the sole driver of the $d=147/171\text{ bp}$ bump (observed: complete elimination across all $2.813\text{ Gb}$); (iii) a non-zero L\'evy area rate exceeding nominal $\alpha=0.05$ under circular-shift null would indicate uncontrolled autocorrelation leakage (observed: $0/24$); and (iv) no causal biological mechanism (e.g., replication vs.\ transcription vs.\ retrotransposon insertion bias) is claimed beyond the exact sequence-level decomposition reported here.
+
+
+% =====================================================================
+\section{Reproducibility, Self-Test Verification, and Cryptographic Provenance}
+\label{sec:repro}
+% =====================================================================
+
+\paragraph{Code and Data Availability.}
+The complete Zero-RNG software engine (\texttt{human\_t2t\_atlas.py} v1.5.3), machine-readable JSON/Markdown audit outputs, all six publication figures, and all 24 per-chromosome diskmaps are openly released under the MIT License at \url{https://github.com/Dr-Logvinovich/human-t2t-torus-atlas}. Foundational multi-species coding-torus software and Papers~1--3 of this series are archived at \url{https://github.com/Dr-Logvinovich/codon-torus-syntax}.
+
+Every table, statistic, and figure in this manuscript is generated deterministically from the 24 NCBI RefSeq FASTA files (\texttt{NC\_060925.1}--\texttt{NC\_060948.1}; cryptographic SHA-256 digests and PELT segment counts archived in Table~\ref{tab:sha}) by \texttt{human\_t2t\_atlas.py} v1.5.3 without random seeds or Monte Carlo resampling (total full-genome runtime $5{,}935\text{ s}$ on Python 3.12.1, NumPy 2.3.2, SciPy 1.16.2, Matplotlib 3.10.6; primary run \texttt{script\_sha256}: \texttt{06d2b4278dd8ff53...}). At startup, the engine executes an automated Zero-RNG verification suite confirming:
+\begin{itemize}
+  \item exact reverse-complement equivariance $B^{(d)}(\mathrm{rc}(s)) = R(B^{(d)}(s))$ (max error $0.0$), exact $E_{\mathrm{het}}$ annihilation of $\Wmp\oplus\Wmm$ ($1.93\times 10^{-36}$), and exact $V_4$-commutation of $\Pienv$ (Theorem~\ref{thm:pienv}; $4.44\times 10^{-16}$, quadrant ranks $(132,118,130,116)$);
+  \item exact FFT vs.\ direct autocorrelation ($1.39\times 10^{-16}$), Lugannani--Rice $\chi^2$ tail accuracy ($1.16\times 10^{-6}\text{ dex}$), $E_{\mathrm{loc}}$ nested multiscale invariance ($0.0$ at $M=10\text{ kb}$), and delayed-pruning PELT optimality against exact $O(n^2)$ dynamic programming across 30 adversarial trials (max error $0.0$);
+  \item exact $\bmod\,5$ HSat aliasing ($\|\Wmp\|^2 = 0.0$ at $d=10$ vs.\ $0.050$ at $d=11$), clipping-atom null rejection, and $1\%$ compact-centromere recovery under KI-BIC.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Cryptographic provenance (leading 16 hex digits of FASTA SHA-256) and LRV-calibrated PELT $L_2$ segmentation counts across all 24 RefSeq T2T-CHM13v2.0 chromosomes.}
+\label{tab:sha}
+\scriptsize
+\setlength{\tabcolsep}{5.0pt}
+\begin{tabular}{@{}llll|llll@{}}
+\toprule
+\textbf{Chr} & \textbf{RefSeq} & \textbf{PELT ($H_3/\Wmp$)} & \textbf{FASTA SHA-256} & \textbf{Chr} & \textbf{RefSeq} & \textbf{PELT ($H_3/\Wmp$)} & \textbf{FASTA SHA-256} \\
+\midrule
+\texttt{chr1}  & \texttt{NC\_060925.1} & 20 / 27 & \texttt{c86fa4d9c76656c9} & \texttt{chr13} & \texttt{NC\_060937.1} & 20 / 29 & \texttt{c164e1c815be58ac} \\
+\texttt{chr2}  & \texttt{NC\_060926.1} & 26 / 45 & \texttt{b6aafb3e7611980e} & \texttt{chr14} & \texttt{NC\_060938.1} & 34 / 38 & \texttt{5ee6c7a61d0b53a8} \\
+\texttt{chr3}  & \texttt{NC\_060927.1} & 17 / 27 & \texttt{1f919df6a78c05fd} & \texttt{chr15} & \texttt{NC\_060939.1} & 16 / 27 & \texttt{0c70225fdac3a426} \\
+\texttt{chr4}  & \texttt{NC\_060928.1} & 18 / 22 & \texttt{1a3df2883e1b2abb} & \texttt{chr16} & \texttt{NC\_060940.1} &  8 / 20 & \texttt{e7c2b5afa8ed9771} \\
+\texttt{chr5}  & \texttt{NC\_060929.1} & 17 / 27 & \texttt{b9539e281465fbd7} & \texttt{chr17} & \texttt{NC\_060941.1} & 12 / 13 & \texttt{5f3771e7527f0430} \\
+\texttt{chr6}  & \texttt{NC\_060930.1} & 10 / 25 & \texttt{7c61e9bd158538d1} & \texttt{chr18} & \texttt{NC\_060942.1} & 13 / 13 & \texttt{aa6764e63ecc69a4} \\
+\texttt{chr7}  & \texttt{NC\_060931.1} & 15 / 23 & \texttt{2066f451f3f9db55} & \texttt{chr19} & \texttt{NC\_060943.1} &  6 /  5 & \texttt{2c83d70fa9d773b8} \\
+\texttt{chr8}  & \texttt{NC\_060932.1} & 16 / 19 & \texttt{8223b4937154d99e} & \texttt{chr20} & \texttt{NC\_060944.1} & 16 / 15 & \texttt{6dced502be2977db} \\
+\texttt{chr9}  & \texttt{NC\_060933.1} & 28 /  8 & \texttt{68168df766e5f13a} & \texttt{chr21} & \texttt{NC\_060945.1} & 25 / 26 & \texttt{b87fa4a066e27be9} \\
+\texttt{chr10} & \texttt{NC\_060934.1} & 20 / 18 & \texttt{855193a7f3153093} & \texttt{chr22} & \texttt{NC\_060946.1} & 26 / 22 & \texttt{38cdf31025c84f94} \\
+\texttt{chr11} & \texttt{NC\_060935.1} & 11 / 25 & \texttt{deb983445a071af5} & \texttt{chrX}  & \texttt{NC\_060947.1} & 14 / 32 & \texttt{d007eb2891cda942} \\
+\texttt{chr12} & \texttt{NC\_060936.1} & 11 / 19 & \texttt{e527750a144f4e6e} & \texttt{chrY}  & \texttt{NC\_060948.1} & 74 / 43 & \texttt{40d071bbe6c4e4f8} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\clearpage
+\appendix
+\section{Automated Zero-RNG Startup Self-Test Verification Matrix}
+\label{app:selftest}
+Prior to processing any RefSeq chromosome, \texttt{human\_t2t\_atlas.py} v1.5.3 executes a deterministic algebraic and statistical self-test gate (\texttt{all\_passed = true} in \texttt{human\_t2t\_atlas\_v1.json}). Table~\ref{tab:selftest} archives the exact machine-precision residuals and adversarial null-test outcomes for independent peer verification.
+
+\begin{table}[htbp]
+\centering
+\caption{Complete automated Zero-RNG self-test audit matrix recorded by \texttt{human\_t2t\_atlas.py} v1.5.3 (\texttt{script\_sha256=06d2b4278dd8ff53...}).}
+\label{tab:selftest}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{}lllX@{}}
+\toprule
+\textbf{Module} & \textbf{Check Identifier} & \textbf{Observed Value} & \textbf{Exact Invariant / Adversarial Gate} \\
+\midrule
+D1 & \texttt{revcomp\_equals\_R\_max\_err} & $0.0$ & Exact $B^{(d)}(\mathrm{rc}(s)) = R(B^{(d)}(s))$ equivariance. \\
+D1 & \texttt{PR2\_exact\_Wpm\_Wmm\_zero} & $0.0$ & Exact annihilation of $\Wpm,\Wmm$ on PR2-exact duplex. \\
+D2 & \texttt{Ehet\_directed\_annihilation} & $1.93\times 10^{-36}$ & Exact $T$-symmetry of heterogeneity null $E_{\mathrm{het}}^{(d)}$. \\
+D3 & \texttt{screen\_kl\_chain\_max\_err} & $4.44\times 10^{-16}$ & Exact 4-term KL chain $I_{CC}=I_{\mathrm{br}}+D_{5'}+D_{3'}+D_{1,3}$. \\
+D3 & \texttt{PR2\_lead\_equals\_wobble\_err} & $0.0$ & Exact $D_{5'\text{-lead}} = D_{3'\text{-wobble}}$ under PR2. \\
+D4 & \texttt{frame\_lock\_chain\_err} & $0.0$ & Exact $\Omega_{\mathrm{phase}} = \Omega_{\mathrm{marg}}+\Omega_{\mathrm{cond}}$; null $=0.0$. \\
+D5 & \texttt{svd\_perm\_invariance\_err} & $1.24\times 10^{-14}$ & Basis-permutation invariance of SVD polarity walks. \\
+D6 & \texttt{fft\_vs\_direct\_max\_err} & $1.39\times 10^{-16}$ & Zero-padded FFT vs.\ direct autocorrelation identity. \\
+D7 & \texttt{chr2\_1pct\_centromere\_imbalance\_ok} & \texttt{true} & Recovery of $1\%$ compact centromere under KI-BIC. \\
+D7 & \texttt{clipping\_atom\_null\_rejected} & \texttt{true} & Rejection of spurious boundary-clipping split atoms. \\
+D8 & \texttt{jackknife\_wn\_vs\_pers\_ok} & \texttt{true} & Delete-1 jackknife separates $H=0.50$ from $H>0.50$. \\
+D9 & \texttt{unbiased\_PR2\_zero\_ok} & \texttt{true} & Exact $U$-statistic debiasing (Theorem~\ref{thm:orbit_debias}, err $<1.1\text{e-}19$). \\
+D11 & \texttt{Wmp\_screen\_pythag\_err} & $4.34\times 10^{-19}$ & Exact Pythagorean split of $\Wmp$ across screen fibers. \\
+D13 & \texttt{Pi\_env\_V4\_comm\_err} & $4.44\times 10^{-16}$ & Exact $V_4$ commutation; ranks $(132,118,130,116)$. \\
+D14 & \texttt{lugannani\_rice\_max\_err} & $1.16\times 10^{-6}$ & Saddlepoint $\chi^2$ tail accuracy in $\log_{10} p$ units. \\
+D14 & \texttt{lemma\_pooling\_floor\_rel\_err} & $0.0$ & Exact $1/(4N)$ pooling-floor calibration (Corollary~\ref{cor:floor}). \\
+D14 & \texttt{cluster\_1mb\_zero\_null\_ok} & \texttt{true} & Null calibration of 1-Mb LOO Newey--West HAC $t$-test. \\
+D15 & \texttt{nested\_budget\_max\_err} & $1.42\times 10^{-14}$ & Exact $E_{\mathrm{loc}}=E_{\mathrm{sym}}+J$; $M=10\text{ kb}$ err $=0.0$. \\
+D16 & \texttt{WW\_SS\_antiphase\_deg} & $179.994^\circ$ & Synthetic $180^\circ$ antiphase recovery; $p_{\mathrm{adj}}=6.49\text{e-}10$. \\
+D17 & \texttt{fft\_vs\_roll\_max\_err} & $4.26\times 10^{-14}$ & Exact $O(n\log n)$ FFT circular-shift L\'evy null. \\
+D18 & \texttt{pelt\_vs\_exact\_dp\_30trials\_max\_err} & $0.0$ & Delayed-pruning PELT matches exact $O(n^2)$ DP (30/30). \\
+D18 & \texttt{lrv\_reduces\_persistent\_splits} & $48 \to 20$ & Bartlett LRV calibration suppresses spurious AR splits. \\
+D19 & \texttt{mod5\_HSat\_aliasing} & $[0.0,\;0.050]$ & Ideal $(\texttt{GGAAT})_n$: $\|\Wmp\|^2=0$ ($d=10$) vs.\ $0.050$ ($d=11$). \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{thebibliography}{10}
+\bibitem{Nurk2022}
+S.~Nurk \textit{et al.}, ``The complete sequence of a human genome,'' \textit{Science} \textbf{376}(6588), 44--53 (2022).
+\bibitem{Rhie2023}
+A.~Rhie \textit{et al.}, ``The complete sequence of a human Y chromosome,'' \textit{Nature} \textbf{621}, 344--354 (2023).
+\bibitem{Altemose2022}
+N.~Altemose \textit{et al.}, ``Complete genomic and epigenetic maps of human centromeres,'' \textit{Science} \textbf{376}(6588), eabl4178 (2022).
+\bibitem{Chargaff1968}
+R.~Rudner, J.~D.~Karkas, and E.~Chargaff, ``Separation of \textit{B.~subtilis} DNA into complementary strands, III.\ Direct analysis,'' \textit{Proc.\ Natl.\ Acad.\ Sci.\ USA} \textbf{60}(3), 921--922 (1968).
+\bibitem{Kittler1986}
+J.~Kittler and J.~Illingworth, ``Minimum error thresholding,'' \textit{Pattern Recognition} \textbf{19}(1), 41--47 (1986).
+\bibitem{Killick2012}
+R.~Killick, P.~Fearnhead, and I.~A.~Eckley, ``Optimal detection of changepoints with a linear computational cost,'' \textit{J.\ Am.\ Stat.\ Assoc.} \textbf{107}(500), 1590--1598 (2012).
+\bibitem{Zhang2007}
+N.~R.~Zhang and D.~O.~Siegmund, ``A modified Bayes information criterion with applications to the analysis of comparative genomic hybridization data,'' \textit{Biometrics} \textbf{63}(1), 22--32 (2007).
+\bibitem{Newey1987}
+W.~K.~Newey and K.~D.~West, ``A simple, positive semi-definite, heteroskedasticity and autocorrelation consistent covariance matrix,'' \textit{Econometrica} \textbf{55}(3), 703--708 (1987).
+\bibitem{Logvinovich2026}
+V.~Logvinovich and J.-C.~Perez, ``The Double-Stranded Codon Torus and Codon Memory Spectrum (Papers~1--3),'' Zenodo Open-Access Preprints (2026), \texttt{doi:10.5281/zenodo.23287684}, \texttt{doi:10.5281/zenodo.23508080}, \texttt{doi:10.5281/zenodo.23695321}.
+\bibitem{Logvinovich2026b}
+V.~Logvinovich and J.-C.~Perez, ``Codon Torus Syntax: Zero-RNG Bioinformatics Verification Suite (Papers~1--3),'' GitHub Repository (2026), \url{https://github.com/Dr-Logvinovich/codon-torus-syntax}.
+\end{thebibliography}
+
+
+\end{document}
